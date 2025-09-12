@@ -1,0 +1,78 @@
+[gd_scene load_steps=12 format=3 uid="uid://bv1kl7lolju7d"]
+
+[ext_resource type="Script" uid="uid://dgvgjxqimo8s6" path="res://Elements/Collectables/gold.gd" id="1_2gwkq"]
+[ext_resource type="Texture2D" uid="uid://dnnw4orq078w" path="res://Assets/coin.png" id="1_qs3vs"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2gwkq"]
+atlas = ExtResource("1_qs3vs")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0n16j"]
+atlas = ExtResource("1_qs3vs")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s4qy4"]
+atlas = ExtResource("1_qs3vs")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7bco8"]
+atlas = ExtResource("1_qs3vs")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eup3j"]
+atlas = ExtResource("1_qs3vs")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_frwtq"]
+atlas = ExtResource("1_qs3vs")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yvym7"]
+atlas = ExtResource("1_qs3vs")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m6jma"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2gwkq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0n16j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s4qy4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7bco8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eup3j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_frwtq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yvym7")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xu3lw"]
+radius = 6.0
+
+[node name="Gold" type="Area2D"]
+script = ExtResource("1_2gwkq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_m6jma")
+animation = &"Idle"
+autoplay = "Idle"
+frame_progress = 0.539059
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_xu3lw")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

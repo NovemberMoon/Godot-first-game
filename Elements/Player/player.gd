@@ -7,6 +7,7 @@ const JUMP_VELOCITY = -400.0
 @onready var anim = $AnimatedSprite2D
 
 var health = 100
+var gold = 0
 
 
 func _physics_process(delta: float) -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c1xucxw00ot0r"]
+[gd_scene load_steps=12 format=3 uid="uid://c1xucxw00ot0r"]
 
 [ext_resource type="PackedScene" uid="uid://dmtqybsvc1d2v" path="res://Elements/Player/player.tscn" id="1_4inae"]
 [ext_resource type="Texture2D" uid="uid://57j2wlalq5j2" path="res://Assets/oak_woods_v1.0/background/background_layer_1.png" id="2_nfskk"]
@@ -438,6 +438,35 @@ func _process(delta: float) -> void:
 	text = \"HP: \" + str($\"../../Player/Player\".health)
 "
 
+[sub_resource type="GDScript" id="GDScript_5saw1"]
+script/source = "extends Label
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	text = \"GOLD: \" + str($\"../../Player/Player\".gold)
+"
+
+[sub_resource type="GDScript" id="GDScript_spj1u"]
+script/source = "extends Node2D
+
+
+var gold = preload(\"res://Elements/Collectables/gold.tscn\")
+
+func _on_timer_timeout() -> void:
+	var tempGold = gold.instantiate()
+	var rng =RandomNumberGenerator.new()
+	var randInt = randi_range(50, 500)
+	
+	tempGold.position = Vector2(randInt, 565)
+	add_child(tempGold)
+"
+
 [node name="Level" type="Node2D"]
 
 [node name="BG" type="ParallaxBackground" parent="."]
@@ -495,10 +524,28 @@ scale = Vector2(3.63625, 3.6)
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Label" type="Label" parent="CanvasLayer"]
-offset_left = 50.0
+offset_left = 53.0
 offset_top = 16.0
-offset_right = 145.0
+offset_right = 148.0
 offset_bottom = 64.0
 theme_override_font_sizes/font_size = 30
-text = "HP"
+text = "HP:"
 script = SubResource("GDScript_y7rhs")
+
+[node name="Label2" type="Label" parent="CanvasLayer"]
+offset_left = 53.0
+offset_top = 60.0
+offset_right = 145.0
+offset_bottom = 102.0
+theme_override_font_sizes/font_size = 30
+text = "GOLD:"
+script = SubResource("GDScript_5saw1")
+
+[node name="Collectables" type="Node2D" parent="."]
+script = SubResource("GDScript_spj1u")
+
+[node name="Timer" type="Timer" parent="Collectables"]
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="Collectables/Timer" to="Collectables" method="_on_timer_timeout"]
