@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dqh70recxax0a"]
+[gd_scene load_steps=25 format=3 uid="uid://dqh70recxax0a"]
 
 [ext_resource type="Texture2D" uid="uid://c7kw8jtvuf423" path="res://Assets/Monsters_Creatures_Fantasy/Skeleton/Take Hit.png" id="1_dkp6u"]
 [ext_resource type="Script" uid="uid://ch5h68fsnqqcy" path="res://Elements/Skeleton/skeleton.gd" id="1_llnmv"]
@@ -123,11 +123,17 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_c3lku"]
-radius = 7.0
-height = 32.0
+radius = 5.93886
+height = 32.4701
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m3iag"]
 radius = 53.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_llnmv"]
+size = Vector2(2, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m3iag"]
+size = Vector2(4.95786, 1)
 
 [node name="Skeleton" type="CharacterBody2D"]
 script = ExtResource("1_llnmv")
@@ -138,17 +144,33 @@ scale = Vector2(0.234413, 0.22135)
 sprite_frames = SubResource("SpriteFrames_83vu2")
 animation = &"Idle"
 autoplay = "Idle"
-frame_progress = 0.853181
+frame_progress = 0.224864
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.0106096, 0.419634)
-scale = Vector2(0.331717, 0.339899)
+scale = Vector2(0.334979, 0.343723)
 shape = SubResource("CapsuleShape2D_c3lku")
 
 [node name="Detector" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detector"]
 shape = SubResource("CircleShape2D_m3iag")
 
+[node name="Death" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Death"]
+position = Vector2(0, -5)
+scale = Vector2(1.0085, 1)
+shape = SubResource("RectangleShape2D_llnmv")
+
+[node name="Death2" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Death2"]
+scale = Vector2(1.0085, 1)
+shape = SubResource("RectangleShape2D_m3iag")
+
 [connection signal="body_entered" from="Detector" to="." method="_on_detector_body_entered"]
 [connection signal="body_exited" from="Detector" to="." method="_on_detector_body_exited"]
+[connection signal="body_entered" from="Death" to="." method="_on_death_body_entered"]
+[connection signal="body_entered" from="Death2" to="." method="_on_death_2_body_entered"]

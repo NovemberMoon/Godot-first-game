@@ -222,7 +222,7 @@ shape = SubResource("CapsuleShape2D_4e7lq")
 position = Vector2(4.76837e-07, -17)
 scale = Vector2(1.12594, 1.12594)
 sprite_frames = SubResource("SpriteFrames_7ifq1")
-animation = &"Idle"
+animation = &"Fall"
 autoplay = "Idle"
 
 [node name="Camera2D" type="Camera2D" parent="."]

@@ -3,7 +3,10 @@ extends CharacterBody2D
 
 const SPEED = 100.0
 
+@onready var anim = $AnimatedSprite2D
+
 var chase = false
+var alive = true
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -13,10 +16,20 @@ func _physics_process(delta: float) -> void:
 	var player = $"../../Player/Player"
 	var direction = (player.position - self.position).normalized()
 	
-	if chase:
-		velocity.x = direction.x * SPEED
-	else:
-		velocity.x = 0.0
+	if alive:
+		if chase:
+			velocity.x = direction.x * SPEED
+			anim.play("Walk")
+			
+		else:
+			velocity.x = 0.0
+			anim.play("Idle")
+			
+		if direction.x < 0:
+			anim.flip_h = true
+		else:
+			anim.flip_h = false
+		
 		
 	move_and_slide()
 
@@ -29,3 +42,23 @@ func _on_detector_body_entered(body: Node2D) -> void:
 func _on_detector_body_exited(body: Node2D) -> void:
 	if body.name == "Player":
 		chase = false
+
+
+func _on_death_body_entered(body: Node2D) -> void:
+	if body.name == "Player":
+		body.velocity.y -= 300
+		death()
+
+
+func _on_death_2_body_entered(body: Node2D) -> void:
+	if body.name == "Player":
+		if alive:
+			body.health -= 40
+		death()
+
+
+func death():
+	alive = false
+	anim.play("Death")
+	await anim.animation_finished
+	queue_free()
