@@ -214,12 +214,15 @@ animations = [{
 script = ExtResource("1_a3htu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.473661, -2.47366)
+scale = Vector2(1.12594, 1.12594)
 shape = SubResource("CapsuleShape2D_4e7lq")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -13)
+position = Vector2(4.76837e-07, -17)
+scale = Vector2(1.12594, 1.12594)
 sprite_frames = SubResource("SpriteFrames_7ifq1")
-animation = &"Run"
+animation = &"Idle"
 autoplay = "Idle"
 
 [node name="Camera2D" type="Camera2D" parent="."]
