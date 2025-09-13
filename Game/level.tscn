@@ -507,7 +507,7 @@ layer_0/tile_data = PackedInt32Array(2359296, 65536, 0, 2359297, 131072, 0, 2359
 [node name="Player" type="Node2D" parent="."]
 
 [node name="Player" parent="Player" instance=ExtResource("1_4inae")]
-position = Vector2(185, 523)
+position = Vector2(138, 544)
 
 [node name="Mobs" type="Node2D" parent="."]
 
@@ -537,5 +537,3 @@ script = SubResource("GDScript_spj1u")
 [node name="Timer" type="Timer" parent="Collectables"]
 wait_time = 3.0
 autostart = true
-
-[connection signal="timeout" from="Collectables/Timer" to="Collectables" method="_on_timer_timeout"]
