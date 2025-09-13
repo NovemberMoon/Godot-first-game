@@ -222,14 +222,14 @@ shape = SubResource("CapsuleShape2D_4e7lq")
 position = Vector2(4.76837e-07, -17)
 scale = Vector2(1.12594, 1.12594)
 sprite_frames = SubResource("SpriteFrames_7ifq1")
-animation = &"Fall"
+animation = &"Idle"
 autoplay = "Idle"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2.4, 2.4)
 process_callback = 0
-limit_left = 0
-limit_right = 1250
-limit_bottom = 650
+limit_left = -5000
+limit_right = 5000
+limit_bottom = 630
 position_smoothing_enabled = true
 drag_horizontal_enabled = true
