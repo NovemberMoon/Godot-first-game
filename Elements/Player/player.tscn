@@ -623,9 +623,6 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="Animation" id="Animation_ucpqj"]
-length = 0.001
-
 [sub_resource type="Animation" id="Animation_epu0b"]
 length = 0.6
 tracks/0/type = "value"
@@ -651,6 +648,20 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": ["Attack"]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"combo1"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_jh1yd"]
@@ -678,6 +689,20 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": ["Attack2"]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"combo1"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_aqi8x"]
@@ -872,6 +897,9 @@ tracks/1/keys = {
 "values": ["Jump"]
 }
 
+[sub_resource type="Animation" id="Animation_ucpqj"]
+length = 0.001
+
 [sub_resource type="Animation" id="Animation_fsgsw"]
 length = 0.8
 loop_mode = 1
@@ -983,8 +1011,9 @@ shape = SubResource("CapsuleShape2D_4e7lq")
 position = Vector2(4.76837e-07, -17)
 scale = Vector2(1.12594, 1.12594)
 sprite_frames = SubResource("SpriteFrames_7ifq1")
-animation = &"Attack"
+animation = &"Attack2"
 autoplay = "Idle"
+frame = 2
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2.4, 2.4)
