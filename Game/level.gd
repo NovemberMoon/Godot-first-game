@@ -22,15 +22,6 @@ func _ready() -> void:
 	light.enabled = true
 
 
-func _process(delta: float) -> void:
-	match state:
-		MORNING:
-			morning_state()
-		EVENING:
-			evening_state()
-	
-
-
 func morning_state():
 	var tween = get_tree().create_tween()
 	tween.tween_property(light, "energy", 0.2, time)
@@ -54,4 +45,9 @@ func evening_state():
 
 
 func _on_day_night_timeout() -> void:
+	match state:
+		MORNING:
+			morning_state()
+		EVENING:
+			evening_state()
 	state = (state + 1) % 4
