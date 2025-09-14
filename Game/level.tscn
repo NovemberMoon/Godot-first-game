@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c1xucxw00ot0r"]
+[gd_scene load_steps=24 format=3 uid="uid://c1xucxw00ot0r"]
 
 [ext_resource type="PackedScene" uid="uid://dmtqybsvc1d2v" path="res://Elements/Player/player.tscn" id="1_4inae"]
 [ext_resource type="Script" uid="uid://drf6w3o2oqffn" path="res://Game/level.gd" id="1_5saw1"]
@@ -431,6 +431,132 @@ sources/0 = SubResource("TileSetAtlasSource_y7rhs")
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_spj1u"]
 polygon = PackedVector2Array(-5008, 583, -5008, 656, 5008, 656, 5008, 583)
 
+[sub_resource type="Animation" id="Animation_sin03"]
+resource_name = "sunrise"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sun:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.95, 0.2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ShopLight:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [2.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ShopLight2:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [2.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_we6pn"]
+resource_name = "sunset"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sun:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.2, 0.95]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ShopLight:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 2.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ShopLight2:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 2.0]
+}
+
+[sub_resource type="Animation" id="Animation_0goqn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sun:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ShopLight:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ShopLight2:energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1mry8"]
+_data = {
+&"RESET": SubResource("Animation_0goqn"),
+&"sunrise": SubResource("Animation_sin03"),
+&"sunset": SubResource("Animation_we6pn")
+}
+
 [sub_resource type="GDScript" id="GDScript_y7rhs"]
 script/source = "extends Label
 
@@ -459,6 +585,9 @@ func _process(_delta: float) -> void:
 	text = \"GOLD: \" + str($\"../../Player/Player\".gold)
 "
 
+[sub_resource type="Animation" id="Animation_esqs7"]
+length = 0.001
+
 [sub_resource type="Animation" id="Animation_spj1u"]
 resource_name = "day_text_fade_in"
 tracks/0/type = "value"
@@ -473,9 +602,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.686275)]
 }
-
-[sub_resource type="Animation" id="Animation_esqs7"]
-length = 0.001
 
 [sub_resource type="Animation" id="Animation_himod"]
 resource_name = "day_text_fade_out"
@@ -561,20 +687,20 @@ layer_0/tile_data = PackedInt32Array(2359296, 65536, 0, 2359297, 131072, 0, 2359
 
 [node name="Light" type="Node2D" parent="."]
 
-[node name="DirectionalLight2D" type="DirectionalLight2D" parent="Light"]
-energy = 0.95
+[node name="Sun" type="DirectionalLight2D" parent="Light"]
+energy = 0.2
 blend_mode = 1
 range_layer_min = -1
 
 [node name="DayNight" type="Timer" parent="Light"]
-wait_time = 60.0
+wait_time = 10.0
 autostart = true
 
 [node name="ShopLight" type="PointLight2D" parent="Light"]
 position = Vector2(19, 548)
 scale = Vector2(0.295, 0.295)
 color = Color(0.814056, 0.71211, 0.508548, 1)
-energy = 2.0
+energy = 0.0
 range_layer_min = -1
 shadow_enabled = true
 texture = ExtResource("8_spj1u")
@@ -583,13 +709,18 @@ texture = ExtResource("8_spj1u")
 position = Vector2(116, 548)
 scale = Vector2(0.295, 0.295)
 color = Color(0.814056, 0.71211, 0.508548, 1)
-energy = 2.0
+energy = 0.0
 range_layer_min = -1
 shadow_enabled = true
 texture = ExtResource("8_spj1u")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="Light"]
 occluder = SubResource("OccluderPolygon2D_spj1u")
+
+[node name="LightAnimation" type="AnimationPlayer" parent="Light"]
+libraries = {
+&"": SubResource("AnimationLibrary_1mry8")
+}
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -620,7 +751,7 @@ offset_bottom = 266.0
 theme_override_font_sizes/font_size = 80
 text = "DAY"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
+[node name="TextAnimation" type="AnimationPlayer" parent="CanvasLayer"]
 libraries = {
 &"": SubResource("AnimationLibrary_sin03")
 }

@@ -1,12 +1,10 @@
 extends Node2D
 
 
-@onready var light = $Light/DirectionalLight2D
+@onready var lightAnim = $Light/LightAnimation
+@onready var textAnim = $CanvasLayer/TextAnimation
 @onready var time = $Light/DayNight.wait_time
-@onready var shopLight = $Light/ShopLight
-@onready var shopLight2 = $Light/ShopLight2
 @onready var dayText = $CanvasLayer/DayText
-@onready var animPlayer = $CanvasLayer/AnimationPlayer
 
 
 enum {
@@ -18,55 +16,30 @@ enum {
 
 
 var state = MORNING
-var dayCount: int
+var dayCount = 0
 
 
 func _ready() -> void:
-	dayCount = 1
-	set_day_text()
-	day_text_fade()
+	morning_state()
 
 
 func morning_state():
-	var tween = get_tree().create_tween()
-	tween.tween_property(light, "energy", 0.2, time)
-	
-	var tween2 = get_tree().create_tween()
-	tween2.tween_property(shopLight, "energy", 0, time)
-	
-	var tween3 = get_tree().create_tween()
-	tween3.tween_property(shopLight2, "energy", 0, time)
+	dayCount += 1
+	dayText.text = "DAY " + str(dayCount)
+	lightAnim.play("sunrise")
+	textAnim.play("day_text_fade_in")
+	await get_tree().create_timer(3).timeout
+	textAnim.play("day_text_fade_out")
 
 
 func evening_state():
-	var tween = get_tree().create_tween()
-	tween.tween_property(light, "energy", 0.95, time)
-	
-	var tween2 = get_tree().create_tween()
-	tween2.tween_property(shopLight, "energy", 1.5, time)
-	
-	var tween3 = get_tree().create_tween()
-	tween3.tween_property(shopLight2, "energy", 1.5, time)
+	lightAnim.play("sunset")
 
 
 func _on_day_night_timeout() -> void:
+	state = (state + 1) % 4
 	match state:
 		MORNING:
 			morning_state()
 		EVENING:
 			evening_state()
-	state = (state + 1) % 4
-	if state == MORNING:
-		dayCount += 1
-		set_day_text()
-		day_text_fade()
-
-
-func day_text_fade():
-	animPlayer.play("day_text_fade_in")
-	await get_tree().create_timer(3).timeout
-	animPlayer.play("day_text_fade_out")
-
-
-func set_day_text():
-	dayText.text = "DAY " + str(dayCount)

@@ -393,9 +393,8 @@ shape = SubResource("CapsuleShape2D_oc5lp")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -11)
 sprite_frames = SubResource("SpriteFrames_kyava")
-animation = &"Attack"
+animation = &"Idle"
 autoplay = "Idle"
-frame = 6
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
