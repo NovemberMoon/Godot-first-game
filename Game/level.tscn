@@ -1,11 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://c1xucxw00ot0r"]
+[gd_scene load_steps=15 format=3 uid="uid://c1xucxw00ot0r"]
 
 [ext_resource type="PackedScene" uid="uid://dmtqybsvc1d2v" path="res://Elements/Player/player.tscn" id="1_4inae"]
+[ext_resource type="Script" uid="uid://drf6w3o2oqffn" path="res://Game/level.gd" id="1_5saw1"]
 [ext_resource type="Texture2D" uid="uid://57j2wlalq5j2" path="res://Assets/oak_woods_v1.0/background/background_layer_1.png" id="2_nfskk"]
 [ext_resource type="Texture2D" uid="uid://b8ru5hisw14ba" path="res://Assets/oak_woods_v1.0/background/background_layer_2.png" id="3_m3hgq"]
 [ext_resource type="PackedScene" uid="uid://n8tvbsbe0h7u" path="res://Elements/Building/shop.tscn" id="4_5saw1"]
 [ext_resource type="Texture2D" uid="uid://dpyusaa6kvpeq" path="res://Assets/oak_woods_v1.0/background/background_layer_3.png" id="4_y7rhs"]
 [ext_resource type="Texture2D" uid="uid://bkfte8wjle6oj" path="res://Assets/oak_woods_v1.0/oak_woods_tileset.png" id="5_m3hgq"]
+[ext_resource type="Texture2D" uid="uid://cx3miej3vaxqp" path="res://Assets/circle.png" id="8_spj1u"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y7rhs"]
 texture = ExtResource("5_m3hgq")
@@ -467,9 +469,14 @@ var gold = preload(\"res://Elements/Collectables/gold.tscn\")
 	#add_child(tempGold)
 "
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_spj1u"]
+polygon = PackedVector2Array(-5008, 583, -5008, 656, 5008, 656, 5008, 583)
+
 [node name="Level" type="Node2D"]
+script = ExtResource("1_5saw1")
 
 [node name="BG" type="ParallaxBackground" parent="."]
+layer = -1
 offset = Vector2(0, 260)
 scale = Vector2(0.5, 0.5)
 transform = Transform2D(0.5, 0, 0, 0.5, 0, 260)
@@ -541,3 +548,35 @@ script = SubResource("GDScript_spj1u")
 [node name="Timer" type="Timer" parent="Collectables"]
 wait_time = 3.0
 autostart = true
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+energy = 0.95
+blend_mode = 1
+range_layer_min = -1
+
+[node name="DayNight" type="Timer" parent="."]
+wait_time = 60.0
+autostart = true
+
+[node name="ShopLight" type="PointLight2D" parent="."]
+position = Vector2(19, 548)
+scale = Vector2(0.295, 0.295)
+color = Color(0.814056, 0.71211, 0.508548, 1)
+energy = 2.0
+range_layer_min = -1
+shadow_enabled = true
+texture = ExtResource("8_spj1u")
+
+[node name="ShopLight2" type="PointLight2D" parent="."]
+position = Vector2(116, 548)
+scale = Vector2(0.295, 0.295)
+color = Color(0.814056, 0.71211, 0.508548, 1)
+energy = 2.0
+range_layer_min = -1
+shadow_enabled = true
+texture = ExtResource("8_spj1u")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_spj1u")
+
+[connection signal="timeout" from="DayNight" to="." method="_on_day_night_timeout"]
