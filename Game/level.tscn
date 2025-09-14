@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://c1xucxw00ot0r"]
+[gd_scene load_steps=12 format=3 uid="uid://c1xucxw00ot0r"]
 
 [ext_resource type="PackedScene" uid="uid://dmtqybsvc1d2v" path="res://Elements/Player/player.tscn" id="1_4inae"]
 [ext_resource type="Texture2D" uid="uid://57j2wlalq5j2" path="res://Assets/oak_woods_v1.0/background/background_layer_1.png" id="2_nfskk"]
 [ext_resource type="Texture2D" uid="uid://b8ru5hisw14ba" path="res://Assets/oak_woods_v1.0/background/background_layer_2.png" id="3_m3hgq"]
+[ext_resource type="PackedScene" uid="uid://n8tvbsbe0h7u" path="res://Elements/Building/shop.tscn" id="4_5saw1"]
 [ext_resource type="Texture2D" uid="uid://dpyusaa6kvpeq" path="res://Assets/oak_woods_v1.0/background/background_layer_3.png" id="4_y7rhs"]
 [ext_resource type="Texture2D" uid="uid://bkfte8wjle6oj" path="res://Assets/oak_woods_v1.0/oak_woods_tileset.png" id="5_m3hgq"]
 
@@ -499,6 +500,9 @@ position = Vector2(576, 324)
 scale = Vector2(3.6, 3.6)
 texture = ExtResource("4_y7rhs")
 
+[node name="Shop" parent="." instance=ExtResource("4_5saw1")]
+position = Vector2(67, 541)
+
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_5saw1")
 format = 2
@@ -507,7 +511,7 @@ layer_0/tile_data = PackedInt32Array(2359296, 65536, 0, 2359297, 131072, 0, 2359
 [node name="Player" type="Node2D" parent="."]
 
 [node name="Player" parent="Player" instance=ExtResource("1_4inae")]
-position = Vector2(138, 544)
+position = Vector2(144, 560)
 
 [node name="Mobs" type="Node2D" parent="."]
 
