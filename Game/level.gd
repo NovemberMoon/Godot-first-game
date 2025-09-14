@@ -1,10 +1,10 @@
 extends Node2D
 
 
-@onready var light = $DirectionalLight2D
-@onready var time = $DayNight.wait_time
-@onready var shopLight = $ShopLight
-@onready var shopLight2 = $ShopLight2
+@onready var light = $Light/DirectionalLight2D
+@onready var time = $Light/DayNight.wait_time
+@onready var shopLight = $Light/ShopLight
+@onready var shopLight2 = $Light/ShopLight2
 @onready var dayText = $CanvasLayer/DayText
 @onready var animPlayer = $CanvasLayer/AnimationPlayer
 
