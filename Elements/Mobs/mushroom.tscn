@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://5m2sxrn8ib52"]
+[gd_scene load_steps=48 format=3 uid="uid://5m2sxrn8ib52"]
 
 [ext_resource type="Texture2D" uid="uid://c1svxb3st0qeh" path="res://Assets/Monsters_Creatures_Fantasy/Mushroom/Attack.png" id="1_au5i5"]
 [ext_resource type="Script" uid="uid://cwks56adqeavn" path="res://Elements/Mobs/mushroom.gd" id="1_jmurb"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://2uflbdloncuc" path="res://Assets/Monsters_Creatures_Fantasy/Mushroom/Death.png" id="3_xog0h"]
 [ext_resource type="Texture2D" uid="uid://eii7yrr3pl7x" path="res://Assets/Monsters_Creatures_Fantasy/Mushroom/Idle.png" id="4_kdq0k"]
 [ext_resource type="Texture2D" uid="uid://w7sft3k17r26" path="res://Assets/Monsters_Creatures_Fantasy/Mushroom/Run.png" id="5_jwb5v"]
+[ext_resource type="PackedScene" uid="uid://c5vv0bgpuxule" path="res://Elements/DamageBox/damage_box.tscn" id="7_xog0h"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_oc5lp"]
 radius = 9.0
@@ -260,6 +261,18 @@ tracks/1/keys = {
 "update": 1,
 "values": ["Attack"]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AttackDirection/DamageBox/HitBox/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
 
 [sub_resource type="Animation" id="Animation_uctti"]
 length = 0.5
@@ -343,6 +356,21 @@ tracks/1/keys = {
 "values": ["Idle"]
 }
 
+[sub_resource type="Animation" id="Animation_xog0h"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AttackDirection/DamageBox/HitBox/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
 [sub_resource type="Animation" id="Animation_hnoak"]
 length = 0.8
 loop_mode = 1
@@ -377,23 +405,31 @@ _data = {
 &"Damage": SubResource("Animation_uctti"),
 &"Death": SubResource("Animation_3f465"),
 &"Idle": SubResource("Animation_jhsdi"),
+&"RESET": SubResource("Animation_xog0h"),
 &"Run": SubResource("Animation_hnoak")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jmurb"]
 size = Vector2(18, 18)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_xog0h"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kdq0k"]
+radius = 7.0
+
 [node name="Mushroom" type="CharacterBody2D"]
 collision_layer = 4
 script = ExtResource("1_jmurb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CapsuleShape2D_oc5lp")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -11)
 sprite_frames = SubResource("SpriteFrames_kyava")
-animation = &"Idle"
+animation = &"Attack"
 autoplay = "Idle"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -405,6 +441,7 @@ autoplay = "Idle"
 [node name="AttackDirection" type="Node2D" parent="."]
 
 [node name="AttackRange" type="Area2D" parent="AttackDirection"]
+visible = false
 collision_layer = 0
 collision_mask = 2
 
@@ -412,4 +449,25 @@ collision_mask = 2
 position = Vector2(14, 0)
 shape = SubResource("RectangleShape2D_jmurb")
 
+[node name="DamageBox" parent="AttackDirection" instance=ExtResource("7_xog0h")]
+
+[node name="HurtBox" parent="AttackDirection/DamageBox" index="0"]
+collision_layer = 32
+collision_mask = 0
+
+[node name="CollisionShape2D" parent="AttackDirection/DamageBox/HurtBox" index="0"]
+shape = SubResource("CircleShape2D_xog0h")
+
+[node name="HitBox" parent="AttackDirection/DamageBox" index="1"]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" parent="AttackDirection/DamageBox/HitBox" index="0"]
+position = Vector2(16, 0)
+shape = SubResource("CircleShape2D_kdq0k")
+disabled = false
+
 [connection signal="body_entered" from="AttackDirection/AttackRange" to="." method="_on_attack_range_body_entered"]
+[connection signal="area_entered" from="AttackDirection/DamageBox/HitBox" to="." method="_on_hit_box_area_entered"]
+
+[editable path="AttackDirection/DamageBox"]

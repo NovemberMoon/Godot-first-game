@@ -22,6 +22,7 @@ var state: int = IDLE:
 
 var player
 var direction
+var damage = 20
 
 func _ready() -> void:
 	Signals.connect("player_position_update", Callable(self, "_on_player_position_update"))
@@ -68,3 +69,7 @@ func chase_state():
 		sprite.flip_h = false
 		attackDirection.rotation_degrees = 0
 	
+
+
+func _on_hit_box_area_entered(area: Area2D) -> void:
+	Signals.emit_signal("enemy_attack", damage)

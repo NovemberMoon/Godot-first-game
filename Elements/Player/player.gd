@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+
+signal health_changed(new_health)
+
 enum {
 	IDLE,
 	MOVE,
@@ -7,7 +10,9 @@ enum {
 	ATTACK2,
 	ATTACK3,
 	BLOCK,
-	SLIDE
+	SLIDE,
+	DAMAGE,
+	DEATH
 }
 
 const SPEED = 150.0
@@ -16,13 +21,19 @@ const JUMP_VELOCITY = -400.0
 @onready var anim = $AnimatedSprite2D
 @onready var animPlayer = $AnimationPlayer
 
-var health = 100
+var max_health = 120
+var health
 var gold = 0
 var state = MOVE
 var run_speed = 1
 var combo = false
 var attack_cooldown = false
 var player_pos
+
+
+func _ready() -> void:
+	Signals.connect("enemy_attack", Callable(self, "_on_damage_received"))
+	health = max_health
 
 
 func _physics_process(delta: float) -> void:
@@ -40,6 +51,10 @@ func _physics_process(delta: float) -> void:
 			block_state()
 		SLIDE:
 			slide_state()
+		DAMAGE:
+			damage_state()
+		DEATH:
+			death_state()
 	
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -47,12 +62,6 @@ func _physics_process(delta: float) -> void:
 	if velocity.y > 0:
 		animPlayer.play("Fall")
 		
-	if health <= 0:
-		health = 0
-		animPlayer.play("Death")
-		await animPlayer.animation_finished
-		queue_free()
-		get_tree().change_scene_to_file("res://UI/menu.tscn")
 	
 	move_and_slide()
 	
@@ -142,3 +151,28 @@ func attack_freeze():
 	attack_cooldown = true
 	await get_tree().create_timer(0.5).timeout
 	attack_cooldown = false
+
+
+func damage_state():
+	velocity.x = 0
+	animPlayer.play("Damage")
+	await animPlayer.animation_finished
+	state = MOVE
+
+
+func death_state():
+	velocity.x = 0
+	animPlayer.play("Death")
+	await animPlayer.animation_finished
+	queue_free()
+	get_tree().change_scene_to_file.bind("res://UI/menu.tscn").call_deferred()
+
+
+func _on_damage_received(enemy_damage):
+	health -= enemy_damage
+	emit_signal("health_changed", health)
+	if health <= 0:
+		health = 0
+		state = DEATH
+	else:
+		state = DAMAGE

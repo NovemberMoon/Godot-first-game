@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://c1xucxw00ot0r"]
+[gd_scene load_steps=25 format=3 uid="uid://c1xucxw00ot0r"]
 
 [ext_resource type="PackedScene" uid="uid://dmtqybsvc1d2v" path="res://Elements/Player/player.tscn" id="1_4inae"]
 [ext_resource type="Script" uid="uid://drf6w3o2oqffn" path="res://Game/level.gd" id="1_5saw1"]
@@ -9,6 +9,9 @@
 [ext_resource type="Texture2D" uid="uid://bkfte8wjle6oj" path="res://Assets/oak_woods_v1.0/oak_woods_tileset.png" id="5_m3hgq"]
 [ext_resource type="PackedScene" uid="uid://5m2sxrn8ib52" path="res://Elements/Mobs/mushroom.tscn" id="8_esqs7"]
 [ext_resource type="Texture2D" uid="uid://cx3miej3vaxqp" path="res://Assets/circle.png" id="8_spj1u"]
+[ext_resource type="Texture2D" uid="uid://d0flkwtfbaw0w" path="res://Assets/Sprite-0003.png" id="8_we6pn"]
+[ext_resource type="Texture2D" uid="uid://doetvrtql17by" path="res://Assets/Sprite-0001.png" id="9_0goqn"]
+[ext_resource type="Texture2D" uid="uid://cxs31pyhrqbuu" path="res://Assets/Sprite-0002.png" id="10_1mry8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y7rhs"]
 texture = ExtResource("5_m3hgq")
@@ -557,34 +560,6 @@ _data = {
 &"sunset": SubResource("Animation_we6pn")
 }
 
-[sub_resource type="GDScript" id="GDScript_y7rhs"]
-script/source = "extends Label
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	text = \"HP: \" + str($\"../../Player/Player\".health)
-"
-
-[sub_resource type="GDScript" id="GDScript_5saw1"]
-script/source = "extends Label
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	text = \"GOLD: \" + str($\"../../Player/Player\".gold)
-"
-
 [sub_resource type="Animation" id="Animation_esqs7"]
 length = 0.001
 
@@ -724,24 +699,6 @@ libraries = {
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="HPText" type="Label" parent="CanvasLayer"]
-offset_left = 53.0
-offset_top = 16.0
-offset_right = 148.0
-offset_bottom = 64.0
-theme_override_font_sizes/font_size = 30
-text = "HP:"
-script = SubResource("GDScript_y7rhs")
-
-[node name="GoldText" type="Label" parent="CanvasLayer"]
-offset_left = 53.0
-offset_top = 60.0
-offset_right = 145.0
-offset_bottom = 102.0
-theme_override_font_sizes/font_size = 30
-text = "GOLD:"
-script = SubResource("GDScript_5saw1")
-
 [node name="DayText" type="Label" parent="CanvasLayer"]
 modulate = Color(1, 1, 1, 0)
 offset_left = 467.0
@@ -755,6 +712,20 @@ text = "DAY"
 libraries = {
 &"": SubResource("AnimationLibrary_sin03")
 }
+
+[node name="HealthBar" type="TextureProgressBar" parent="CanvasLayer"]
+modulate = Color(1, 1, 1, 0.843137)
+offset_left = 29.0
+offset_top = 31.0
+offset_right = 224.0
+offset_bottom = 78.0
+value = 50.0
+nine_patch_stretch = true
+texture_under = ExtResource("8_we6pn")
+texture_over = ExtResource("9_0goqn")
+texture_progress = ExtResource("10_1mry8")
+tint_over = Color(0.802723, 0.602049, 0.383367, 1)
+tint_progress = Color(0.801263, 4.23551e-06, 2.88785e-07, 1)
 
 [node name="Mobs" type="Node2D" parent="."]
 
@@ -774,3 +745,4 @@ wait_time = 3.0
 autostart = true
 
 [connection signal="timeout" from="Light/DayNight" to="." method="_on_day_night_timeout"]
+[connection signal="health_changed" from="Player/Player" to="." method="_on_player_health_changed"]

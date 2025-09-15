@@ -5,6 +5,8 @@ extends Node2D
 @onready var textAnim = $CanvasLayer/TextAnimation
 @onready var time = $Light/DayNight.wait_time
 @onready var dayText = $CanvasLayer/DayText
+@onready var healthBar = $CanvasLayer/HealthBar
+@onready var player = $Player/Player
 
 
 enum {
@@ -20,6 +22,8 @@ var dayCount = 0
 
 
 func _ready() -> void:
+	healthBar.max_value = player.max_health
+	healthBar.value = healthBar.max_value
 	morning_state()
 
 
@@ -43,3 +47,7 @@ func _on_day_night_timeout() -> void:
 			morning_state()
 		EVENING:
 			evening_state()
+
+
+func _on_player_health_changed(new_health: Variant) -> void:
+	healthBar.value = new_health
