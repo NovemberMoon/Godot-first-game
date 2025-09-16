@@ -2,8 +2,6 @@ extends Node2D
 
 
 @onready var lightAnim = $Light/LightAnimation
-@onready var textAnim = $CanvasLayer/TextAnimation
-@onready var time = $Light/DayNight.wait_time
 @onready var dayText = $CanvasLayer/DayText
 @onready var healthBar = $CanvasLayer/HealthBar
 @onready var player = $Player/Player
@@ -31,9 +29,7 @@ func morning_state():
 	dayCount += 1
 	dayText.text = "DAY " + str(dayCount)
 	lightAnim.play("sunrise")
-	textAnim.play("day_text_fade_in")
 	await get_tree().create_timer(3).timeout
-	textAnim.play("day_text_fade_out")
 
 
 func evening_state():

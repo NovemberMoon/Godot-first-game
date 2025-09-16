@@ -20,6 +20,7 @@ const JUMP_VELOCITY = -400.0
 
 @onready var anim = $AnimatedSprite2D
 @onready var animPlayer = $AnimationPlayer
+@onready var attackDirection = $AttackDirection
 
 var max_health = 120
 var health
@@ -29,6 +30,9 @@ var run_speed = 1
 var combo = false
 var attack_cooldown = false
 var player_pos
+var damage_basic = 10
+var damage_multiplier = 1
+var damage_current
 
 
 func _ready() -> void:
@@ -61,7 +65,8 @@ func _physics_process(delta: float) -> void:
 	
 	if velocity.y > 0:
 		animPlayer.play("Fall")
-		
+	
+	damage_current = damage_basic * damage_multiplier
 	
 	move_and_slide()
 	
@@ -86,8 +91,10 @@ func move_state():
 	
 	if direction == -1:
 		anim.flip_h = true
+		attackDirection.rotation_degrees = 180
 	elif direction == 1:
 		anim.flip_h = false
+		attackDirection.rotation_degrees = 0
 		
 	if Input.is_action_pressed("run"):
 		run_speed = 2
@@ -118,6 +125,7 @@ func slide_state():
 
 
 func attack_state():
+	damage_multiplier = 1
 	if Input.is_action_just_pressed("attack") and combo:
 		state = ATTACK2
 	velocity.x = 0
@@ -128,6 +136,7 @@ func attack_state():
 
 
 func attack2_state():
+	damage_multiplier = 1.2
 	if Input.is_action_just_pressed("attack") and combo:
 		state = ATTACK3
 	animPlayer.play("Attack2")
@@ -136,6 +145,7 @@ func attack2_state():
 
 
 func attack3_state():
+	damage_multiplier = 2
 	animPlayer.play("Attack3")
 	await animPlayer.animation_finished
 	state = MOVE
@@ -169,10 +179,19 @@ func death_state():
 
 
 func _on_damage_received(enemy_damage):
+	if state == BLOCK:
+		enemy_damage /= 2
+	elif state == SLIDE:
+		enemy_damage = 0
+	else:
+		state = DAMAGE
+	
 	health -= enemy_damage
 	emit_signal("health_changed", health)
 	if health <= 0:
 		health = 0
 		state = DEATH
-	else:
-		state = DAMAGE
+
+
+func _on_hit_box_area_entered(area: Area2D) -> void:
+	Signals.emit_signal("player_attack", damage_current)
