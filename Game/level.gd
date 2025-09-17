@@ -20,9 +20,8 @@ var dayCount = 0
 
 
 func _ready() -> void:
-	healthBar.max_value = player.max_health
-	healthBar.value = healthBar.max_value
 	morning_state()
+	healthBar.value = Global.player_health
 
 
 func morning_state():
@@ -45,5 +44,5 @@ func _on_day_night_timeout() -> void:
 			evening_state()
 
 
-func _on_player_health_changed(new_health: Variant) -> void:
-	healthBar.value = new_health
+func _on_player_health_changed() -> void:
+	healthBar.value = Global.player_health

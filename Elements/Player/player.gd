@@ -22,8 +22,6 @@ const JUMP_VELOCITY = -400.0
 @onready var animPlayer = $AnimationPlayer
 @onready var attackDirection = $AttackDirection
 
-var max_health = 120
-var health
 var gold = 0
 var state = MOVE
 var run_speed = 1
@@ -32,12 +30,11 @@ var attack_cooldown = false
 var player_pos
 var damage_basic = 10
 var damage_multiplier = 1
-var damage_current
+var damage_current:int
 
 
 func _ready() -> void:
 	Signals.connect("enemy_attack", Callable(self, "_on_damage_received"))
-	health = max_health
 
 
 func _physics_process(delta: float) -> void:
@@ -109,6 +106,9 @@ func move_state():
 			
 	if Input.is_action_just_pressed("attack") and !attack_cooldown:
 		state = ATTACK
+		
+	if Input.is_action_just_pressed("action"):
+		get_tree().change_scene_to_file("res://Game/new_level.tscn")
 
 
 func block_state():
@@ -186,10 +186,10 @@ func _on_damage_received(enemy_damage):
 	else:
 		state = DAMAGE
 	
-	health -= enemy_damage
-	emit_signal("health_changed", health)
-	if health <= 0:
-		health = 0
+	Global.player_health -= enemy_damage
+	emit_signal("health_changed")
+	if Global.player_health <= 0:
+		Global.player_health = 0
 		state = DEATH
 
 

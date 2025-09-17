@@ -32,11 +32,10 @@ var state: int = IDLE:
 var player
 var direction
 var damage = 20
-var health = 100
+
 
 func _ready() -> void:
 	Signals.connect("player_position_update", Callable(self, "_on_player_position_update"))
-	Signals.connect("player_attack", Callable(self, "_on_damage_received"))
 
 
 func _physics_process(delta: float) -> void:
@@ -99,10 +98,10 @@ func _on_hit_box_area_entered(area: Area2D) -> void:
 	Signals.emit_signal("enemy_attack", damage)
 
 
-func _on_damage_received(player_damage):	
-	health -= player_damage
-	if health <= 0:
-		state = DEATH
-	else:
-		state = IDLE
-		state = DAMAGE
+func _on_mob_health_no_health() -> void:
+	state = DEATH
+
+
+func _on_mob_health_damage_received() -> void:
+	state = IDLE
+	state = DAMAGE
