@@ -26,7 +26,7 @@ func _ready() -> void:
 
 func _on_damage_received(player_damage):	
 	health -= player_damage
-	damage_text.text = str(player_damage)
+	damage_text.text = str(int(player_damage))
 	anim_player.stop()
 	anim_player.play("damage_text")
 	if health <= 0:

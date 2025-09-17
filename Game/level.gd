@@ -3,7 +3,6 @@ extends Node2D
 
 @onready var lightAnim = $Light/LightAnimation
 @onready var dayText = $CanvasLayer/DayText
-@onready var healthBar = $CanvasLayer/HealthBar
 @onready var player = $Player/Player
 
 
@@ -21,7 +20,6 @@ var dayCount = 0
 
 func _ready() -> void:
 	morning_state()
-	healthBar.value = Global.player_health
 
 
 func morning_state():
@@ -42,7 +40,3 @@ func _on_day_night_timeout() -> void:
 			morning_state()
 		EVENING:
 			evening_state()
-
-
-func _on_player_health_changed() -> void:
-	healthBar.value = Global.player_health

@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://t240u7k3ch0d"]
+
+[ext_resource type="Script" uid="uid://dkjc6veymjake" path="res://Elements/Player/stats.gd" id="1_biden"]
+[ext_resource type="Texture2D" uid="uid://d0flkwtfbaw0w" path="res://Assets/Sprite-0003.png" id="1_uanhn"]
+[ext_resource type="Texture2D" uid="uid://doetvrtql17by" path="res://Assets/Sprite-0001.png" id="2_biden"]
+[ext_resource type="Texture2D" uid="uid://cxs31pyhrqbuu" path="res://Assets/Sprite-0002.png" id="3_j68iy"]
+[ext_resource type="Texture2D" uid="uid://cnfqgnhnb5eyb" path="res://Assets/Aseprite/energy_bar_empty.png" id="5_2uada"]
+[ext_resource type="Texture2D" uid="uid://dh40xlnrpn6pq" path="res://Assets/Aseprite/energy_bar_progress.png" id="6_chad5"]
+
+[node name="Stats" type="CanvasLayer"]
+script = ExtResource("1_biden")
+
+[node name="HealthBar" type="TextureProgressBar" parent="."]
+modulate = Color(1, 1, 1, 0.843137)
+offset_left = 29.0
+offset_top = 31.0
+offset_right = 224.0
+offset_bottom = 78.0
+value = 50.0
+nine_patch_stretch = true
+texture_under = ExtResource("1_uanhn")
+texture_over = ExtResource("2_biden")
+texture_progress = ExtResource("3_j68iy")
+tint_over = Color(0.802723, 0.602049, 0.383367, 1)
+tint_progress = Color(0.801263, 4.23551e-06, 2.88785e-07, 1)
+
+[node name="Stamina" type="TextureProgressBar" parent="."]
+offset_left = 49.0
+offset_top = 85.0
+offset_right = 202.0
+offset_bottom = 103.0
+value = 50.0
+nine_patch_stretch = true
+texture_under = ExtResource("5_2uada")
+texture_progress = ExtResource("6_chad5")
+tint_progress = Color(1, 1, 0.419608, 1)

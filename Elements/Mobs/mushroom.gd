@@ -52,7 +52,7 @@ func _on_player_position_update(player_pos):
 	player = player_pos
 
 
-func _on_attack_range_body_entered(body: Node2D) -> void:
+func _on_attack_range_body_entered(_body: Node2D) -> void:
 	state = ATTACK
 
 
@@ -94,7 +94,7 @@ func recover_state():
 	state = IDLE
 
 
-func _on_hit_box_area_entered(area: Area2D) -> void:
+func _on_hit_box_area_entered(_area: Area2D) -> void:
 	Signals.emit_signal("enemy_attack", damage)
 
 
