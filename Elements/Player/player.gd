@@ -192,7 +192,7 @@ func _on_damage_received(enemy_damage):
 		state = DAMAGE
 	
 	stats.health -= enemy_damage
-	if stats.health <= 0:
+	if stats.health == 0:
 		stats.health = 0
 		state = DEATH
 
