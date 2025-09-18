@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://c1xucxw00ot0r"]
+[gd_scene load_steps=17 format=3 uid="uid://c1xucxw00ot0r"]
 
 [ext_resource type="PackedScene" uid="uid://dmtqybsvc1d2v" path="res://Elements/Player/player.tscn" id="1_4inae"]
 [ext_resource type="Script" uid="uid://drf6w3o2oqffn" path="res://Game/level.gd" id="1_5saw1"]
@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://n8tvbsbe0h7u" path="res://Elements/Building/shop.tscn" id="4_5saw1"]
 [ext_resource type="Texture2D" uid="uid://dpyusaa6kvpeq" path="res://Assets/oak_woods_v1.0/background/background_layer_3.png" id="4_y7rhs"]
 [ext_resource type="Texture2D" uid="uid://bkfte8wjle6oj" path="res://Assets/oak_woods_v1.0/oak_woods_tileset.png" id="5_m3hgq"]
-[ext_resource type="PackedScene" uid="uid://5m2sxrn8ib52" path="res://Elements/Mobs/mushroom.tscn" id="8_esqs7"]
 [ext_resource type="Texture2D" uid="uid://cx3miej3vaxqp" path="res://Assets/circle.png" id="8_spj1u"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y7rhs"]
@@ -691,8 +690,9 @@ text = "DAY"
 
 [node name="Mobs" type="Node2D" parent="."]
 
-[node name="Mushroom" parent="Mobs" instance=ExtResource("8_esqs7")]
-position = Vector2(-44, 556)
+[node name="Spawner" type="Timer" parent="Mobs"]
+wait_time = 5.0
+autostart = true
 
 [node name="Player" type="Node2D" parent="."]
 
@@ -707,3 +707,4 @@ wait_time = 3.0
 autostart = true
 
 [connection signal="timeout" from="Light/DayNight" to="." method="_on_day_night_timeout"]
+[connection signal="timeout" from="Mobs/Spawner" to="." method="_on_spawner_timeout"]
