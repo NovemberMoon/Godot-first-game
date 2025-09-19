@@ -67,7 +67,9 @@ func chase_state():
 		sprite.flip_h = false
 		attackDirection.rotation_degrees = 0
 
+
 func damage_state():
+	$AttackDirection/DamageBox/HitBox/CollisionShape2D.disabled = true
 	damage_anim()
 	animPlayer.play("Damage")
 	await animPlayer.animation_finished

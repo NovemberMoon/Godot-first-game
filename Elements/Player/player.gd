@@ -165,6 +165,7 @@ func attack_freeze():
 
 
 func damage_state():
+	$AttackDirection/DamageBox/HitBox/CollisionShape2D.disabled = true
 	animPlayer.play("Damage")
 	await animPlayer.animation_finished
 	state = MOVE
