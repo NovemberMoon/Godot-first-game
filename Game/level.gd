@@ -15,7 +15,7 @@ enum {
 }
 
 
-var state = MORNING
+var state:int = MORNING
 var dayCount = 0
 
 

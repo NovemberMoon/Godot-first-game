@@ -26,10 +26,8 @@ var state = MOVE
 var run_speed = 1
 var combo = false
 var attack_cooldown = false
-var player_pos
 var damage_basic = 10
 var damage_multiplier = 1
-var damage_current
 var recovery = false
 
 
@@ -38,37 +36,35 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	
-	match state:
-		MOVE:
-			move_state()
-		ATTACK:
-			attack_state()
-		ATTACK2:
-			attack2_state()
-		ATTACK3:
-			attack3_state()
-		BLOCK:
-			block_state()
-		SLIDE:
-			slide_state()
-		DAMAGE:
-			damage_state()
-		DEATH:
-			death_state()
-	
+
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	
-	if velocity.y > 0:
-		animPlayer.play("Fall")
+	Global.player_damage = damage_basic * damage_multiplier
+	Global.player_pos = self.position
 	
-	damage_current = damage_basic * damage_multiplier
-	
+	set_state()
 	move_and_slide()
-	
-	player_pos = self.position
-	Signals.emit_signal("player_position_update", player_pos)
+
+
+func set_state():
+	match state:
+			MOVE:
+				move_state()
+			ATTACK:
+				attack_state()
+			ATTACK2:
+				attack2_state()
+			ATTACK3:
+				attack3_state()
+			BLOCK:
+				block_state()
+			SLIDE:
+				slide_state()
+			DAMAGE:
+				damage_state()
+			DEATH:
+				death_state()
 
 
 func move_state():
@@ -169,7 +165,6 @@ func attack_freeze():
 
 
 func damage_state():
-	velocity.x = 0
 	animPlayer.play("Damage")
 	await animPlayer.animation_finished
 	state = MOVE
@@ -183,13 +178,14 @@ func death_state():
 	get_tree().change_scene_to_file.bind("res://UI/menu.tscn").call_deferred()
 
 
-func _on_damage_received(enemy_damage):
+func _on_damage_received(enemy_damage, enemy_position):
 	if state == BLOCK:
 		enemy_damage /= 2
 	elif state == SLIDE:
 		enemy_damage = 0
 	else:
 		state = DAMAGE
+		damage_anim(enemy_position)
 	
 	stats.health -= enemy_damage
 	if stats.health == 0:
@@ -197,11 +193,17 @@ func _on_damage_received(enemy_damage):
 		state = DEATH
 
 
-func _on_hit_box_area_entered(area: Area2D) -> void:
-	Signals.emit_signal("player_attack", damage_current)
-
-
 func _on_stats_no_stamina() -> void:
 	recovery = true
 	await get_tree().create_timer(2).timeout
 	recovery = false
+
+
+func damage_anim(enemy_position):
+	var direction = (Global.player_pos - enemy_position).normalized()
+	velocity.x = 0
+	self.modulate = Color(1, 0, 0, 1)
+	velocity.x = velocity.x + 200 if direction.x > 0 else velocity.x - 200
+	var tween = get_tree().create_tween()
+	tween.parallel().tween_property(self, "velocity", Vector2.ZERO, 0.1)
+	tween.parallel().tween_property(self, "modulate", Color(1, 1, 1, 1), 0.1)

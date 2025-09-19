@@ -29,13 +29,8 @@ var state: int = IDLE:
 			RECOVER:
 				recover_state()
 
-var player
 var direction
 var damage = 20
-
-
-func _ready() -> void:
-	Signals.connect("player_position_update", Callable(self, "_on_player_position_update"))
 
 
 func _physics_process(delta: float) -> void:
@@ -46,10 +41,6 @@ func _physics_process(delta: float) -> void:
 		chase_state()
 	
 	move_and_slide()
-
-
-func _on_player_position_update(player_pos):
-	player = player_pos
 
 
 func _on_attack_range_body_entered(_body: Node2D) -> void:
@@ -68,7 +59,7 @@ func attack_state():
 
 
 func chase_state():
-	direction = (player - self.position).normalized()
+	direction = (Global.player_pos - self.position).normalized()
 	if direction.x < 0:
 		sprite.flip_h = true
 		attackDirection.rotation_degrees = 180
@@ -77,6 +68,7 @@ func chase_state():
 		attackDirection.rotation_degrees = 0
 
 func damage_state():
+	damage_anim()
 	animPlayer.play("Damage")
 	await animPlayer.animation_finished
 	state = IDLE
@@ -95,7 +87,7 @@ func recover_state():
 
 
 func _on_hit_box_area_entered(_area: Area2D) -> void:
-	Signals.emit_signal("enemy_attack", damage)
+	Signals.emit_signal("enemy_attack", damage, self.position)
 
 
 func _on_mob_health_no_health() -> void:
@@ -105,3 +97,10 @@ func _on_mob_health_no_health() -> void:
 func _on_mob_health_damage_received() -> void:
 	state = IDLE
 	state = DAMAGE
+
+
+func damage_anim():
+	direction = (Global.player_pos - self.position).normalized()
+	velocity.x = velocity.x + 200 if direction.x < 0 else velocity.x - 200
+	var tween = get_tree().create_tween()
+	tween.tween_property(self, "velocity", Vector2.ZERO, 0.1)

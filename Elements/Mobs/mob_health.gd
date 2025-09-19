@@ -20,20 +20,15 @@ var health = 100:
 			health_bar.visible = true
 
 func _ready() -> void:
-	Signals.connect("player_attack", Callable(self, "_on_damage_received"))
 	health_bar.max_value = health
 	health_bar.visible = false
 	damage_text.modulate.a = 0
 
 
-func _on_damage_received(player_damage):
-	player_dmg = player_damage
-
-
 func _on_hurt_box_area_entered(_area: Area2D) -> void:
 	await get_tree().create_timer(0.05).timeout
-	health -= player_dmg
-	damage_text.text = str(int(player_dmg))
+	health -= Global.player_damage
+	damage_text.text = str(int(Global.player_damage))
 	anim_player.stop()
 	anim_player.play("damage_text")
 	if health <= 0:
