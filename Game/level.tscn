@@ -712,6 +712,8 @@ script = ExtResource("11_sin03")
 
 [connection signal="timeout" from="Light/DayNight" to="." method="_on_day_night_timeout"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/Panel/VBoxContainer/Resume" to="Manager" method="_on_resume_pressed"]
+[connection signal="pressed" from="CanvasLayer/PauseMenu/Panel/VBoxContainer/Save" to="Manager" method="_on_save_pressed"]
+[connection signal="pressed" from="CanvasLayer/PauseMenu/Panel/VBoxContainer/Load" to="Manager" method="_on_load_pressed"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/Panel/VBoxContainer/Quit" to="Manager" method="_on_quit_pressed"]
 [connection signal="pressed" from="CanvasLayer/MenuBtn" to="Manager" method="_on_menu_btn_pressed"]
 [connection signal="timeout" from="Mobs/Spawner" to="." method="_on_spawner_timeout"]

@@ -21,7 +21,6 @@ const JUMP_VELOCITY = -400.0
 @onready var attackDirection = $AttackDirection
 @onready var stats = $Stats
 
-var gold = 0
 var state = MOVE
 var run_speed = 1
 var combo = false

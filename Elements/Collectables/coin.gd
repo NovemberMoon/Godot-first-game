@@ -21,3 +21,4 @@ func _on_detector_body_entered(_body: Node2D) -> void:
 		tween.parallel().tween_property(self, "velocity", Vector2(0, -150), 0.3)
 		tween.parallel().tween_property(self, "modulate:a", 0, 0.5)
 		tween.tween_callback(queue_free)
+		Global.gold += 1

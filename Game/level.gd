@@ -20,6 +20,7 @@ var dayCount = 0
 
 
 func _ready() -> void:
+	Global.gold = 0
 	morning_state()
 
 
