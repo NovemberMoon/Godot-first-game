@@ -172,6 +172,7 @@ func damage_state():
 
 
 func death_state():
+	$AttackDirection/DamageBox/HitBox/CollisionShape2D.disabled = true
 	velocity.x = 0
 	animPlayer.play("Death")
 	await animPlayer.animation_finished
