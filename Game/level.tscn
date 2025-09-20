@@ -586,15 +586,23 @@ _data = {
 script/source = "extends Node2D
 
 
-var gold = preload(\"res://Elements/Collectables/gold.tscn\")
+var coin_preload = preload(\"res://Elements/Collectables/coin.tscn\") 
 
-#func _on_timer_timeout() -> void:
-	#var tempGold = gold.instantiate()
-	#var rng = RandomNumberGenerator.new()
-	#var randInt = randi_range(50, 500)
-	#
-	#tempGold.position = Vector2(randInt, 565)
-	#add_child(tempGold)
+
+func _ready() -> void:
+	Signals.connect(\"enemy_died\", Callable(self, \"_on_enemy_died\"))
+
+
+func _on_enemy_died(enemy_position) -> void:
+	for i in randi_range(1, 5):
+		spawn_coin(enemy_position)
+
+
+func spawn_coin(pos):
+	var coin = coin_preload.instantiate()
+	coin.position = pos
+	add_child(coin)
+ 
 "
 
 [node name="Level" type="Node2D"]
@@ -722,10 +730,6 @@ position = Vector2(144, 560)
 
 [node name="Collectables" type="Node2D" parent="."]
 script = SubResource("GDScript_spj1u")
-
-[node name="Timer" type="Timer" parent="Collectables"]
-wait_time = 3.0
-autostart = true
 
 [connection signal="timeout" from="Light/DayNight" to="." method="_on_day_night_timeout"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/Panel/VBoxContainer/Resume" to="Manager" method="_on_resume_pressed"]

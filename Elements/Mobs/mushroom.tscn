@@ -587,9 +587,8 @@ shape = SubResource("CapsuleShape2D_oc5lp")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -11)
 sprite_frames = SubResource("SpriteFrames_kyava")
-animation = &"Attack"
+animation = &"Damage"
 autoplay = "Idle"
-frame = 6
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -628,6 +627,7 @@ disabled = false
 [node name="MobHealth" parent="." instance=ExtResource("8_kdq0k")]
 position = Vector2(0, -27)
 scale = Vector2(0.12, 0.12)
+max_health = 10
 
 [connection signal="body_entered" from="AttackDirection/AttackRange" to="." method="_on_attack_range_body_entered"]
 [connection signal="area_entered" from="AttackDirection/DamageBox/HurtBox" to="MobHealth" method="_on_hurt_box_area_entered"]

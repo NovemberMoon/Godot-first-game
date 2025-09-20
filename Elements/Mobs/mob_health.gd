@@ -9,6 +9,7 @@ signal damage_received()
 @onready var anim_player = $AnimationPlayer
 
 var player_dmg
+@export var max_health = 100
 
 var health = 100:
 	set(value):
@@ -20,7 +21,8 @@ var health = 100:
 			health_bar.visible = true
 
 func _ready() -> void:
-	health_bar.max_value = health
+	health_bar.max_value = max_health
+	health = max_health
 	health_bar.visible = false
 	damage_text.modulate.a = 0
 
