@@ -3,7 +3,7 @@ extends CharacterBody2D
 
 func _ready() -> void:
 	var tween = get_tree().create_tween()
-	tween.parallel().tween_property(self, "velocity", Vector2(randi_range(-70, 70), -150), 0.3)
+	tween.parallel().tween_property(self, "velocity", Vector2(randi_range(-50, 50), -150), 0.3)
 
 
 func _physics_process(delta: float) -> void:
@@ -16,7 +16,8 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_detector_body_entered(_body: Node2D) -> void:
-	var tween = get_tree().create_tween()
-	tween.parallel().tween_property(self, "velocity", Vector2(0, -150), 0.3)
-	tween.parallel().tween_property(self, "modulate:a", 0, 0.5)
-	tween.tween_callback(queue_free)
+	if is_on_floor():
+		var tween = get_tree().create_tween()
+		tween.parallel().tween_property(self, "velocity", Vector2(0, -150), 0.3)
+		tween.parallel().tween_property(self, "modulate:a", 0, 0.5)
+		tween.tween_callback(queue_free)

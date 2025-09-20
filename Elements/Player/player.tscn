@@ -1,4 +1,4 @@
-[gd_scene load_steps=110 format=3 uid="uid://dmtqybsvc1d2v"]
+[gd_scene load_steps=111 format=3 uid="uid://dmtqybsvc1d2v"]
 
 [ext_resource type="Texture2D" uid="uid://b5g5gnxtoeak" path="res://Assets/oak_woods_v1.0/character/char_blue.png" id="1_7ifq1"]
 [ext_resource type="Script" uid="uid://ds0qbjaml002y" path="res://Elements/Player/player.gd" id="1_a3htu"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cx3miej3vaxqp" path="res://Assets/circle.png" id="5_epu0b"]
 [ext_resource type="PackedScene" uid="uid://c5vv0bgpuxule" path="res://Elements/DamageBox/damage_box.tscn" id="6_jh1yd"]
 [ext_resource type="PackedScene" uid="uid://t240u7k3ch0d" path="res://Elements/Player/stats.tscn" id="7_aqi8x"]
+[ext_resource type="PackedScene" uid="uid://dhsy0xgv5l165" path="res://UI/resources.tscn" id="8_lsjgh"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4e7lq"]
 
@@ -1282,6 +1283,8 @@ horizontal_alignment = 1
 libraries = {
 &"": SubResource("AnimationLibrary_jn7f3")
 }
+
+[node name="Resources" parent="." instance=ExtResource("8_lsjgh")]
 
 [connection signal="no_stamina" from="Stats" to="." method="_on_stats_no_stamina"]
 

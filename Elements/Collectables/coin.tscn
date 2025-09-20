@@ -58,7 +58,6 @@ collision_layer = 0
 script = ExtResource("1_xlqo1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_r0qow")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
