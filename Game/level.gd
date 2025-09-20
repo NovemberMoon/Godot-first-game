@@ -42,6 +42,7 @@ func _on_day_night_timeout() -> void:
 			morning_state()
 		EVENING:
 			evening_state()
+	Signals.emit_signal("day_time", state)
 
 
 func _on_spawner_timeout() -> void:

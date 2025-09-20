@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c1xucxw00ot0r"]
+[gd_scene load_steps=20 format=3 uid="uid://c1xucxw00ot0r"]
 
 [ext_resource type="PackedScene" uid="uid://dmtqybsvc1d2v" path="res://Elements/Player/player.tscn" id="1_4inae"]
 [ext_resource type="Script" uid="uid://drf6w3o2oqffn" path="res://Game/level.gd" id="1_5saw1"]
@@ -8,7 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://n8tvbsbe0h7u" path="res://Elements/Building/shop.tscn" id="4_5saw1"]
 [ext_resource type="Texture2D" uid="uid://dpyusaa6kvpeq" path="res://Assets/oak_woods_v1.0/background/background_layer_3.png" id="4_y7rhs"]
 [ext_resource type="Texture2D" uid="uid://bkfte8wjle6oj" path="res://Assets/oak_woods_v1.0/oak_woods_tileset.png" id="5_m3hgq"]
-[ext_resource type="Texture2D" uid="uid://cx3miej3vaxqp" path="res://Assets/circle.png" id="8_spj1u"]
+[ext_resource type="Texture2D" uid="uid://duix654dw4rce" path="res://Assets/oak_woods_v1.0/decorations/lamp.png" id="7_we6pn"]
+[ext_resource type="PackedScene" uid="uid://0g8qmohx2ja2" path="res://Elements/Building/lantern.tscn" id="8_0goqn"]
 [ext_resource type="PackedScene" uid="uid://e3n0phlxpy33" path="res://UI/pause_menu.tscn" id="9_sin03"]
 [ext_resource type="Script" uid="uid://bsskv5oi4ly71" path="res://Game/collectables.gd" id="11_sin03"]
 
@@ -450,34 +451,10 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("ShopLight:energy")
+tracks/1/path = NodePath("../CanvasLayer/DayText:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("ShopLight2:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../CanvasLayer/DayText:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -502,34 +479,10 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("ShopLight:energy")
+tracks/1/path = NodePath("../CanvasLayer/DayText:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 10),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [2.0, 0.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("ShopLight2:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 10),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [2.0, 0.0]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../CanvasLayer/DayText:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "times": PackedFloat32Array(2, 3, 5, 6),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
@@ -550,30 +503,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0.2, 0.95]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("ShopLight:energy")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 10),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.0, 2.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("ShopLight2:energy")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 10),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.0, 2.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1mry8"]
@@ -627,6 +556,13 @@ texture = ExtResource("4_y7rhs")
 [node name="Shop" parent="Buildings" instance=ExtResource("4_5saw1")]
 position = Vector2(67, 541)
 
+[node name="Lamp" type="Sprite2D" parent="Buildings"]
+position = Vector2(333, 548)
+texture = ExtResource("7_we6pn")
+
+[node name="Lantern" parent="Buildings/Lamp" instance=ExtResource("8_0goqn")]
+position = Vector2(-6, -7)
+
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_5saw1")
 format = 2
@@ -643,24 +579,6 @@ range_layer_min = -1
 wait_time = 10.0
 autostart = true
 
-[node name="ShopLight" type="PointLight2D" parent="Light"]
-position = Vector2(19, 548)
-scale = Vector2(0.295, 0.295)
-color = Color(0.814056, 0.71211, 0.508548, 1)
-energy = 0.0
-range_layer_min = -1
-shadow_enabled = true
-texture = ExtResource("8_spj1u")
-
-[node name="ShopLight2" type="PointLight2D" parent="Light"]
-position = Vector2(116, 548)
-scale = Vector2(0.295, 0.295)
-color = Color(0.814056, 0.71211, 0.508548, 1)
-energy = 0.0
-range_layer_min = -1
-shadow_enabled = true
-texture = ExtResource("8_spj1u")
-
 [node name="LightOccluder2D" type="LightOccluder2D" parent="Light"]
 occluder = SubResource("OccluderPolygon2D_spj1u")
 
@@ -674,10 +592,10 @@ layer = 2
 
 [node name="DayText" type="Label" parent="CanvasLayer"]
 modulate = Color(1, 1, 1, 0)
-offset_left = 467.0
-offset_top = 156.0
-offset_right = 717.0
-offset_bottom = 266.0
+offset_left = 446.0
+offset_top = 155.0
+offset_right = 696.0
+offset_bottom = 265.0
 theme_override_font_sizes/font_size = 80
 text = "DAY"
 
