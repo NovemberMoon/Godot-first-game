@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c1xucxw00ot0r"]
+[gd_scene load_steps=26 format=3 uid="uid://c1xucxw00ot0r"]
 
 [ext_resource type="PackedScene" uid="uid://dmtqybsvc1d2v" path="res://Elements/Player/player.tscn" id="1_4inae"]
 [ext_resource type="Script" uid="uid://drf6w3o2oqffn" path="res://Game/level.gd" id="1_5saw1"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://0g8qmohx2ja2" path="res://Elements/Building/lantern.tscn" id="8_0goqn"]
 [ext_resource type="PackedScene" uid="uid://e3n0phlxpy33" path="res://UI/pause_menu.tscn" id="9_sin03"]
 [ext_resource type="Script" uid="uid://bsskv5oi4ly71" path="res://Game/collectables.gd" id="11_sin03"]
+[ext_resource type="Texture2D" uid="uid://d37fkidr0o6ld" path="res://Assets/Aseprite/spotlight_6.png" id="13_0goqn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y7rhs"]
 texture = ExtResource("5_m3hgq")
@@ -512,6 +513,36 @@ _data = {
 &"sunset": SubResource("Animation_we6pn")
 }
 
+[sub_resource type="Gradient" id="Gradient_0goqn"]
+offsets = PackedFloat32Array(0, 0.495202, 1)
+colors = PackedColorArray(1, 1, 1, 0.282353, 1, 1, 1, 1, 1, 1, 1, 0.219608)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_1mry8"]
+gradient = SubResource("Gradient_0goqn")
+
+[sub_resource type="Curve" id="Curve_0goqn"]
+_data = [Vector2(0, 0.505618), 0.0, 0.0, 0, 0, Vector2(0.502742, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.111036), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_1mry8"]
+curve = SubResource("Curve_0goqn")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1mry8"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(100, 100, 1)
+direction = Vector3(1, -1, 0)
+spread = 180.0
+initial_velocity_min = 0.1
+initial_velocity_max = 0.3
+gravity = Vector3(0, 0, 0)
+scale_min = 0.1
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_1mry8")
+color_ramp = SubResource("GradientTexture1D_1mry8")
+hue_variation_min = -2.23517e-08
+hue_variation_max = 0.2
+
 [node name="Level" type="Node2D"]
 script = ExtResource("1_5saw1")
 
@@ -627,6 +658,14 @@ position = Vector2(144, 560)
 
 [node name="Collectables" type="Node2D" parent="."]
 script = ExtResource("11_sin03")
+
+[node name="Dust" type="GPUParticles2D" parent="."]
+position = Vector2(7.15256e-07, 389)
+scale = Vector2(49.9401, -2.35356)
+amount = 100
+texture = ExtResource("13_0goqn")
+lifetime = 5.0
+process_material = SubResource("ParticleProcessMaterial_1mry8")
 
 [connection signal="timeout" from="Light/DayNight" to="." method="_on_day_night_timeout"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/Panel/VBoxContainer/Resume" to="Manager" method="_on_resume_pressed"]

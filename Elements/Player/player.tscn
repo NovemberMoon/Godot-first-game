@@ -1,4 +1,4 @@
-[gd_scene load_steps=111 format=3 uid="uid://dmtqybsvc1d2v"]
+[gd_scene load_steps=112 format=3 uid="uid://dmtqybsvc1d2v"]
 
 [ext_resource type="Texture2D" uid="uid://b5g5gnxtoeak" path="res://Assets/oak_woods_v1.0/character/char_blue.png" id="1_7ifq1"]
 [ext_resource type="Script" uid="uid://ds0qbjaml002y" path="res://Elements/Player/player.gd" id="1_a3htu"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://t240u7k3ch0d" path="res://Elements/Player/stats.tscn" id="7_aqi8x"]
 [ext_resource type="PackedScene" uid="uid://0g8qmohx2ja2" path="res://Elements/Building/lantern.tscn" id="8_0hi56"]
 [ext_resource type="PackedScene" uid="uid://dhsy0xgv5l165" path="res://UI/resources.tscn" id="8_lsjgh"]
+[ext_resource type="PackedScene" uid="uid://stwjda23h8m4" path="res://Effects/leaves.tscn" id="9_0hi56"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4e7lq"]
 
@@ -1021,6 +1022,23 @@ tracks/1/keys = {
 "update": 1,
 "values": ["Run"]
 }
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"steps"
+}, {
+"args": [],
+"method": &"steps"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_slj27"]
 length = 0.8
@@ -1220,8 +1238,9 @@ shape = SubResource("CapsuleShape2D_4e7lq")
 position = Vector2(4.76837e-07, -17)
 scale = Vector2(1.12594, 1.12594)
 sprite_frames = SubResource("SpriteFrames_7ifq1")
-animation = &"Damage"
+animation = &"Run"
 autoplay = "Idle"
+frame = 5
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2.4, 2.4)
@@ -1283,6 +1302,9 @@ libraries = {
 [node name="Lantern" parent="." instance=ExtResource("8_0hi56")]
 position = Vector2(0, -14)
 scale = Vector2(0.055, 0.055)
+
+[node name="Leaves" parent="." instance=ExtResource("9_0hi56")]
+position = Vector2(0, 14)
 
 [connection signal="no_stamina" from="Stats" to="." method="_on_stats_no_stamina"]
 

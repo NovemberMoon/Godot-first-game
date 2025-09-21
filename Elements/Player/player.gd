@@ -20,6 +20,7 @@ const JUMP_VELOCITY = -400.0
 @onready var animPlayer = $AnimationPlayer
 @onready var attackDirection = $AttackDirection
 @onready var stats = $Stats
+@onready var leaves: GPUParticles2D = $Leaves
 
 var state = MOVE
 var run_speed = 1
@@ -208,3 +209,8 @@ func damage_anim(enemy_position):
 	var tween = get_tree().create_tween()
 	tween.parallel().tween_property(self, "velocity", Vector2.ZERO, 0.1)
 	tween.parallel().tween_property(self, "modulate", Color(1, 1, 1, 1), 0.1)
+
+
+func steps():
+	leaves.emitting = true
+	leaves.one_shot = true
