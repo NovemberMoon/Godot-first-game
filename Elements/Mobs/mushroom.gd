@@ -78,7 +78,6 @@ func damage_state():
 
 func death_state():
 	$AttackDirection/DamageBox/HitBox/CollisionShape2D.disabled = true
-	Signals.emit_signal("enemy_died", position)
 	animPlayer.play("Death")
 	await animPlayer.animation_finished
 	queue_free()
@@ -95,6 +94,7 @@ func _on_hit_box_area_entered(_area: Area2D) -> void:
 
 
 func _on_mob_health_no_health() -> void:
+	Signals.emit_signal("enemy_died", position, state)
 	state = DEATH
 
 
