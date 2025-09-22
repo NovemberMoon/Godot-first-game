@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://5m2sxrn8ib52"]
+[gd_scene load_steps=60 format=3 uid="uid://5m2sxrn8ib52"]
 
 [ext_resource type="Texture2D" uid="uid://c1svxb3st0qeh" path="res://Assets/Monsters_Creatures_Fantasy/Mushroom/Attack.png" id="1_au5i5"]
 [ext_resource type="Script" uid="uid://cwks56adqeavn" path="res://Elements/Mobs/mushroom.gd" id="1_jmurb"]
@@ -8,6 +8,11 @@
 [ext_resource type="Texture2D" uid="uid://w7sft3k17r26" path="res://Assets/Monsters_Creatures_Fantasy/Mushroom/Run.png" id="5_jwb5v"]
 [ext_resource type="PackedScene" uid="uid://c5vv0bgpuxule" path="res://Elements/DamageBox/damage_box.tscn" id="7_xog0h"]
 [ext_resource type="PackedScene" uid="uid://bly0ulwfvdmvn" path="res://Elements/Mobs/mob_health.tscn" id="8_kdq0k"]
+[ext_resource type="AudioStream" uid="uid://d4anls7e3yr4s" path="res://Assets/Aseprite/sound/SFX/mushroom/1014.MP3" id="9_qrvjk"]
+[ext_resource type="AudioStream" uid="uid://d3c6khgfu0gcd" path="res://Assets/Aseprite/sound/SFX/mushroom/1014(1).MP3" id="10_vyrb3"]
+[ext_resource type="AudioStream" uid="uid://cvgtwd4e5oncj" path="res://Assets/Aseprite/sound/SFX/mushroom/1014(2).MP3" id="11_fwwqk"]
+[ext_resource type="AudioStream" uid="uid://bghlxhsc0mvlk" path="res://Assets/Aseprite/sound/SFX/mushroom/1014(3).MP3" id="12_eusv7"]
+[ext_resource type="AudioStream" uid="uid://cw4r0333rbcr2" path="res://Assets/Aseprite/sound/SFX/mushroom/1014(4).MP3" id="13_uukcj"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_oc5lp"]
 radius = 9.0
@@ -358,6 +363,18 @@ tracks/2/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sound/Hurt:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_3f465"]
 length = 3.0
@@ -408,6 +425,18 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sound/Hurt:playing")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.17),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_jhsdi"]
@@ -487,6 +516,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sound/Hurt:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_oo4w2"]
@@ -576,6 +617,14 @@ radius = 8.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_kdq0k"]
 radius = 8.0
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_pqmbg"]
+streams_count = 5
+stream_0/stream = ExtResource("9_qrvjk")
+stream_1/stream = ExtResource("10_vyrb3")
+stream_2/stream = ExtResource("11_fwwqk")
+stream_3/stream = ExtResource("12_eusv7")
+stream_4/stream = ExtResource("13_uukcj")
+
 [node name="Mushroom" type="CharacterBody2D"]
 collision_layer = 4
 script = ExtResource("1_jmurb")
@@ -587,8 +636,9 @@ shape = SubResource("CapsuleShape2D_oc5lp")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -11)
 sprite_frames = SubResource("SpriteFrames_kyava")
-animation = &"Idle"
+animation = &"Death"
 autoplay = "Idle"
+frame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -627,6 +677,13 @@ disabled = false
 [node name="MobHealth" parent="." instance=ExtResource("8_kdq0k")]
 position = Vector2(0, -27)
 scale = Vector2(0.12, 0.12)
+
+[node name="Sound" type="Node2D" parent="."]
+
+[node name="Hurt" type="AudioStreamPlayer" parent="Sound"]
+stream = SubResource("AudioStreamRandomizer_pqmbg")
+volume_db = -15.0
+pitch_scale = 0.85
 
 [connection signal="body_entered" from="AttackDirection/AttackRange" to="." method="_on_attack_range_body_entered"]
 [connection signal="area_entered" from="AttackDirection/DamageBox/HurtBox" to="MobHealth" method="_on_hurt_box_area_entered"]

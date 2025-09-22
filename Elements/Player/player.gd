@@ -16,6 +16,7 @@ enum {
 const SPEED = 150.0
 const JUMP_VELOCITY = -400.0
 
+@onready var smack: AudioStreamPlayer = $Sounds/Smack
 @onready var anim = $AnimatedSprite2D
 @onready var animPlayer = $AnimationPlayer
 @onready var attackDirection = $AttackDirection
@@ -181,6 +182,7 @@ func death_state():
 
 
 func _on_damage_received(enemy_damage, enemy_position):
+	smack.play()
 	if state == BLOCK:
 		enemy_damage /= 2
 	elif state == SLIDE:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c1xucxw00ot0r"]
+[gd_scene load_steps=21 format=3 uid="uid://c1xucxw00ot0r"]
 
 [ext_resource type="PackedScene" uid="uid://dmtqybsvc1d2v" path="res://Elements/Player/player.tscn" id="1_4inae"]
 [ext_resource type="Script" uid="uid://drf6w3o2oqffn" path="res://Game/level.gd" id="1_5saw1"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://0g8qmohx2ja2" path="res://Elements/Building/lantern.tscn" id="8_0goqn"]
 [ext_resource type="PackedScene" uid="uid://e3n0phlxpy33" path="res://UI/pause_menu.tscn" id="9_sin03"]
 [ext_resource type="Script" uid="uid://bsskv5oi4ly71" path="res://Game/collectables.gd" id="11_sin03"]
+[ext_resource type="AudioStream" uid="uid://dvtx07rqe8i4w" path="res://Assets/Aseprite/sound/music/cloud-of-sorrow-13984.mp3" id="13_0goqn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y7rhs"]
 texture = ExtResource("5_m3hgq")
@@ -607,10 +608,10 @@ process_mode = 3
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -79.0
-offset_top = 19.0
-offset_right = -15.0
-offset_bottom = 55.0
+offset_left = -89.0
+offset_top = 28.0
+offset_right = -25.0
+offset_bottom = 64.0
 grow_horizontal = 0
 text = "menu"
 
@@ -627,6 +628,11 @@ position = Vector2(144, 560)
 
 [node name="Collectables" type="Node2D" parent="."]
 script = ExtResource("11_sin03")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_0goqn")
+volume_db = -25.0
+autoplay = true
 
 [connection signal="timeout" from="Light/DayNight" to="." method="_on_day_night_timeout"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/Panel/VBoxContainer/Resume" to="Manager" method="_on_resume_pressed"]
