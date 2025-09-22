@@ -1,0 +1,63 @@
+[gd_scene load_steps=7 format=3 uid="uid://5m2sxrn8ib52"]
+
+[ext_resource type="Script" uid="uid://cwks56adqeavn" path="res://Elements/Mobs/enemy.gd" id="1_iqw36"]
+[ext_resource type="PackedScene" uid="uid://c5vv0bgpuxule" path="res://Elements/DamageBox/damage_box.tscn" id="7_edmsm"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_oc5lp"]
+radius = 9.0
+height = 23.4914
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jmurb"]
+size = Vector2(18, 18)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xog0h"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kdq0k"]
+radius = 8.0
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 4
+script = ExtResource("1_iqw36")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CapsuleShape2D_oc5lp")
+
+[node name="AttackDirection" type="Node2D" parent="."]
+
+[node name="AttackRange" type="Area2D" parent="AttackDirection"]
+collision_layer = 0
+collision_mask = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackDirection/AttackRange"]
+position = Vector2(14, 0)
+shape = SubResource("RectangleShape2D_jmurb")
+
+[node name="DamageBox" parent="AttackDirection" instance=ExtResource("7_edmsm")]
+
+[node name="HurtBox" parent="AttackDirection/DamageBox" index="0"]
+collision_layer = 32
+collision_mask = 64
+
+[node name="CollisionShape2D" parent="AttackDirection/DamageBox/HurtBox" index="0"]
+shape = SubResource("CircleShape2D_xog0h")
+
+[node name="HitBox" parent="AttackDirection/DamageBox" index="1"]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" parent="AttackDirection/DamageBox/HitBox" index="0"]
+position = Vector2(18, 0)
+shape = SubResource("CircleShape2D_kdq0k")
+disabled = false
+
+[node name="Run" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="body_entered" from="AttackDirection/AttackRange" to="." method="_on_attack_range_body_entered"]
+[connection signal="area_entered" from="AttackDirection/DamageBox/HitBox" to="." method="_on_hit_box_area_entered"]
+[connection signal="timeout" from="Run" to="." method="_on_run_timeout"]
+
+[editable path="AttackDirection/DamageBox"]

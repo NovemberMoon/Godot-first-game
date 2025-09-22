@@ -1,5 +1,5 @@
 extends CharacterBody2D
-
+class_name Enemy
 
 @onready var animPlayer = $AnimationPlayer
 @onready var sprite = $AnimatedSprite2D
@@ -31,7 +31,7 @@ var state: int = IDLE:
 
 var direction = Vector2.ZERO
 var damage = 20
-var move_speed = 150
+var move_speed = 50
 
 
 func _ready() -> void:
@@ -106,16 +106,6 @@ func _on_hit_box_area_entered(_area: Area2D) -> void:
 	Signals.emit_signal("enemy_attack", damage, self.position)
 
 
-func _on_mob_health_no_health() -> void:
-	Signals.emit_signal("enemy_died", position, state)
-	state = DEATH
-
-
-func _on_mob_health_damage_received() -> void:
-	state = IDLE
-	state = DAMAGE
-
-
 func damage_anim():
 	direction = (Global.player_pos - self.position).normalized()
 	velocity.x = velocity.x + 200 if direction.x < 0 else velocity.x - 200
@@ -124,4 +114,4 @@ func damage_anim():
 
 
 func _on_run_timeout() -> void:
-	move_speed = move_toward(move_speed, randi_range(120, 170), 100)
+	move_speed = move_toward(move_speed, randi_range(30, 70), 100)

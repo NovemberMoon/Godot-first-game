@@ -30,9 +30,9 @@ func _on_time_changed(state):
 
 func light_off():
 	var tween = get_tree().create_tween()
-	tween.tween_property(self, "energy", 0, randi_range(1, 2))
+	tween.tween_property(self, "energy", 0, randi_range(3, 5))
 
 
 func light_on():
 	var tween = get_tree().create_tween()
-	tween.tween_property(self, "energy", 1.5, randi_range(1, 2))
+	tween.tween_property(self, "energy", 1.5, randi_range(3, 5))
