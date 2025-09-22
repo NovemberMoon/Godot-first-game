@@ -627,7 +627,6 @@ disabled = false
 [node name="MobHealth" parent="." instance=ExtResource("8_kdq0k")]
 position = Vector2(0, -27)
 scale = Vector2(0.12, 0.12)
-max_health = 10
 
 [connection signal="body_entered" from="AttackDirection/AttackRange" to="." method="_on_attack_range_body_entered"]
 [connection signal="area_entered" from="AttackDirection/DamageBox/HurtBox" to="MobHealth" method="_on_hurt_box_area_entered"]
