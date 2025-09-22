@@ -206,11 +206,11 @@ func _on_stats_no_stamina() -> void:
 func damage_anim(enemy_position):
 	var direction = (Global.player_pos - enemy_position).normalized()
 	velocity.x = 0
-	self.modulate = Color(1, 0, 0, 1)
+	anim.modulate = Color(1, 0, 0, 1)
 	velocity.x = velocity.x + 200 if direction.x > 0 else velocity.x - 200
 	var tween = get_tree().create_tween()
 	tween.parallel().tween_property(self, "velocity", Vector2.ZERO, 0.1)
-	tween.parallel().tween_property(self, "modulate", Color(1, 1, 1, 1), 0.1)
+	tween.parallel().tween_property(anim, "modulate", Color(1, 1, 1, 1), 0.1)
 
 
 func steps():

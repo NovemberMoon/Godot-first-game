@@ -52,3 +52,9 @@ func stamina_consumption():
 
 func _on_health_regen_timeout() -> void:
 	health += 1
+
+
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("attack") and stamina > attack_cost:
+		stamina -= attack_cost
+	
