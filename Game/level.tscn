@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://c1xucxw00ot0r"]
+[gd_scene load_steps=22 format=3 uid="uid://c1xucxw00ot0r"]
 
 [ext_resource type="PackedScene" uid="uid://dmtqybsvc1d2v" path="res://Elements/Player/player.tscn" id="1_4inae"]
 [ext_resource type="Script" uid="uid://drf6w3o2oqffn" path="res://Game/level.gd" id="1_5saw1"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://duix654dw4rce" path="res://Assets/oak_woods_v1.0/decorations/lamp.png" id="7_we6pn"]
 [ext_resource type="PackedScene" uid="uid://0g8qmohx2ja2" path="res://Elements/Building/lantern.tscn" id="8_0goqn"]
 [ext_resource type="PackedScene" uid="uid://e3n0phlxpy33" path="res://UI/pause_menu.tscn" id="9_sin03"]
+[ext_resource type="PackedScene" uid="uid://cahw7ejr7ye38" path="res://Elements/Building/spawner.tscn" id="11_1mry8"]
 [ext_resource type="Script" uid="uid://bsskv5oi4ly71" path="res://Game/collectables.gd" id="11_sin03"]
 [ext_resource type="AudioStream" uid="uid://dvtx07rqe8i4w" path="res://Assets/Aseprite/sound/music/cloud-of-sorrow-13984.mp3" id="13_0goqn"]
 
@@ -617,13 +618,18 @@ text = "menu"
 
 [node name="Mobs" type="Node2D" parent="."]
 
-[node name="Spawner" type="Timer" parent="Mobs"]
-wait_time = 5.0
-autostart = true
+[node name="Spawner" parent="Mobs" instance=ExtResource("11_1mry8")]
+z_index = 3
+position = Vector2(-1500, 499)
+
+[node name="Spawner2" parent="Mobs" instance=ExtResource("11_1mry8")]
+z_index = 3
+position = Vector2(1500, 499)
 
 [node name="Player" type="Node2D" parent="."]
 
 [node name="Player" parent="Player" instance=ExtResource("1_4inae")]
+z_index = 2
 position = Vector2(144, 560)
 
 [node name="Collectables" type="Node2D" parent="."]
@@ -640,6 +646,5 @@ autoplay = true
 [connection signal="pressed" from="CanvasLayer/PauseMenu/Panel/VBoxContainer/Load" to="Manager" method="_on_load_pressed"]
 [connection signal="pressed" from="CanvasLayer/PauseMenu/Panel/VBoxContainer/Quit" to="Manager" method="_on_quit_pressed"]
 [connection signal="pressed" from="CanvasLayer/MenuBtn" to="Manager" method="_on_menu_btn_pressed"]
-[connection signal="timeout" from="Mobs/Spawner" to="." method="_on_spawner_timeout"]
 
 [editable path="CanvasLayer/PauseMenu"]

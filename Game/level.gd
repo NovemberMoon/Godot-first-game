@@ -5,8 +5,6 @@ extends Node2D
 @onready var dayText = $CanvasLayer/DayText
 @onready var player = $Player/Player
 
-var mushroom_preload = preload("res://Elements/Mobs/mushroom.tscn")
-
 enum {
 	MORNING,
 	DAY,
@@ -16,7 +14,6 @@ enum {
 
 
 var state:int = MORNING
-var dayCount = 0
 
 
 func _ready() -> void:
@@ -25,8 +22,8 @@ func _ready() -> void:
 
 
 func morning_state():
-	dayCount += 1
-	dayText.text = "DAY " + str(dayCount)
+	Global.day_count += 1
+	dayText.text = "DAY " + str(Global.day_count)
 	lightAnim.play("sunrise")
 	await get_tree().create_timer(3).timeout
 
@@ -43,13 +40,3 @@ func _on_day_night_timeout() -> void:
 		EVENING:
 			evening_state()
 	Signals.emit_signal("day_time", state)
-
-
-func _on_spawner_timeout() -> void:
-	mushroom_spawn()
-
-
-func mushroom_spawn():
-	var mushroom = mushroom_preload.instantiate()
-	mushroom.position = Vector2(randi_range(-500, -200), 570)
-	$Mobs.add_child(mushroom)

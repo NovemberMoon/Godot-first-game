@@ -29,8 +29,13 @@ var state: int = IDLE:
 			RECOVER:
 				recover_state()
 
-var direction
+var direction = Vector2.ZERO
 var damage = 20
+var move_speed = 150
+
+
+func _ready() -> void:
+	state = CHASE
 
 
 func _physics_process(delta: float) -> void:
@@ -48,17 +53,20 @@ func _on_attack_range_body_entered(_body: Node2D) -> void:
 
 
 func idle_state():
+	velocity.x = 0
 	animPlayer.play("Idle")
 	state = CHASE
 
 
 func attack_state():
+	velocity.x = 0
 	animPlayer.play("Attack")
 	await animPlayer.animation_finished
 	state = RECOVER
 
 
 func chase_state():
+	animPlayer.play("Run")
 	direction = (Global.player_pos - self.position).normalized()
 	if direction.x < 0:
 		sprite.flip_h = true
@@ -66,9 +74,12 @@ func chase_state():
 	else:
 		sprite.flip_h = false
 		attackDirection.rotation_degrees = 0
+	
+	velocity.x = direction.x * move_speed
 
 
 func damage_state():
+	velocity.x = 0
 	$AttackDirection/DamageBox/HitBox/CollisionShape2D.disabled = true
 	damage_anim()
 	animPlayer.play("Damage")
@@ -77,6 +88,7 @@ func damage_state():
 
 
 func death_state():
+	velocity.x = 0
 	$AttackDirection/DamageBox/HitBox/CollisionShape2D.disabled = true
 	animPlayer.play("Death")
 	await animPlayer.animation_finished
@@ -84,6 +96,7 @@ func death_state():
 
 
 func recover_state():
+	velocity.x = 0
 	animPlayer.play("Recover")
 	await animPlayer.animation_finished
 	state = IDLE
@@ -108,3 +121,7 @@ func damage_anim():
 	velocity.x = velocity.x + 200 if direction.x < 0 else velocity.x - 200
 	var tween = get_tree().create_tween()
 	tween.tween_property(self, "velocity", Vector2.ZERO, 0.1)
+
+
+func _on_run_timeout() -> void:
+	move_speed = move_toward(move_speed, randi_range(120, 170), 100)

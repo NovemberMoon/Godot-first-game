@@ -481,54 +481,6 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_xog0h"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AttackDirection/DamageBox/HitBox/CollisionShape2D:disabled")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("AttackDirection/AttackRange/CollisionShape2D:disabled")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Sound/Hurt:playing")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
 
 [sub_resource type="Animation" id="Animation_oo4w2"]
 length = 0.8
@@ -596,6 +548,18 @@ tracks/1/keys = {
 "update": 1,
 "values": ["Run"]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AttackDirection/AttackRange/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_f58ek"]
 _data = {
@@ -636,9 +600,8 @@ shape = SubResource("CapsuleShape2D_oc5lp")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -11)
 sprite_frames = SubResource("SpriteFrames_kyava")
-animation = &"Death"
+animation = &"Run"
 autoplay = "Idle"
-frame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -650,7 +613,7 @@ autoplay = "Idle"
 
 [node name="AttackRange" type="Area2D" parent="AttackDirection"]
 collision_layer = 0
-collision_mask = 2
+collision_mask = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackDirection/AttackRange"]
 position = Vector2(14, 0)
@@ -677,6 +640,7 @@ disabled = false
 [node name="MobHealth" parent="." instance=ExtResource("8_kdq0k")]
 position = Vector2(0, -27)
 scale = Vector2(0.12, 0.12)
+max_health = 50
 
 [node name="Sound" type="Node2D" parent="."]
 
@@ -685,10 +649,15 @@ stream = SubResource("AudioStreamRandomizer_pqmbg")
 volume_db = -15.0
 pitch_scale = 0.85
 
+[node name="Run" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
 [connection signal="body_entered" from="AttackDirection/AttackRange" to="." method="_on_attack_range_body_entered"]
 [connection signal="area_entered" from="AttackDirection/DamageBox/HurtBox" to="MobHealth" method="_on_hurt_box_area_entered"]
 [connection signal="area_entered" from="AttackDirection/DamageBox/HitBox" to="." method="_on_hit_box_area_entered"]
 [connection signal="damage_received" from="MobHealth" to="." method="_on_mob_health_damage_received"]
 [connection signal="no_health" from="MobHealth" to="." method="_on_mob_health_no_health"]
+[connection signal="timeout" from="Run" to="." method="_on_run_timeout"]
 
 [editable path="AttackDirection/DamageBox"]
