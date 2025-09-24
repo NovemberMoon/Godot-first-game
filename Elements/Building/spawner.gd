@@ -10,7 +10,7 @@ enum Enemies {
 }
 
 var enemy
-var enemy_name = Enemies.MUSHROOM:
+var enemy_name: int = Enemies.MUSHROOM:
 	set(value):
 		enemy_name = value
 		match enemy_name:

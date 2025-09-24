@@ -35,6 +35,17 @@ texture_under = ExtResource("5_2uada")
 texture_progress = ExtResource("6_chad5")
 tint_progress = Color(1, 1, 0.419608, 1)
 
+[node name="Mana" type="TextureProgressBar" parent="."]
+offset_left = 48.0
+offset_top = 110.0
+offset_right = 201.0
+offset_bottom = 128.0
+value = 50.0
+nine_patch_stretch = true
+texture_under = ExtResource("5_2uada")
+texture_progress = ExtResource("6_chad5")
+tint_progress = Color(0.24, 0.442666, 1, 1)
+
 [node name="HealthRegen" type="Timer" parent="."]
 wait_time = 4.0
 autostart = true

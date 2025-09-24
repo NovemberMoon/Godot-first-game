@@ -283,9 +283,6 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="Animation" id="Animation_xog0h"]
-length = 0.001
-
 [sub_resource type="Animation" id="Animation_cuuq1"]
 length = 0.8
 tracks/0/type = "value"
@@ -478,6 +475,9 @@ tracks/2/keys = {
 "update": 1,
 "values": [false]
 }
+
+[sub_resource type="Animation" id="Animation_xog0h"]
+length = 0.001
 
 [sub_resource type="Animation" id="Animation_oo4w2"]
 length = 0.4

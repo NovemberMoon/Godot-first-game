@@ -7,6 +7,7 @@
 scale = Vector2(0.135, 0.135)
 color = Color(1, 0.9, 0.6, 0.870588)
 energy = 1.5
+range_layer_min = -1
 shadow_enabled = true
 texture = ExtResource("1_i6wlu")
 script = ExtResource("2_hhrv6")

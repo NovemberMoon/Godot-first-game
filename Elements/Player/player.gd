@@ -10,7 +10,8 @@ enum {
 	BLOCK,
 	SLIDE,
 	DAMAGE,
-	DEATH
+	DEATH,
+	CAST
 }
 
 const SPEED = 150.0
@@ -66,12 +67,15 @@ func set_state():
 				damage_state()
 			DEATH:
 				death_state()
+			CAST:
+				cast_state()
 
 
 func move_state():
 	
 	var direction := Input.get_axis("left", "right")
 	if direction:
+		Global.player_direction = direction
 		velocity.x = direction * SPEED * run_speed
 		if velocity.y == 0:
 			if run_speed == 1:
@@ -108,6 +112,11 @@ func move_state():
 		stats.stamina_cost = stats.attack_cost
 		if stats.stamina_cost <= stats.stamina:
 			state = ATTACK
+			
+	if Input.is_action_just_pressed("cast"):
+		stats.mana_cost = stats.lightning_mana_cost
+		if stats.mana_cost <= stats.mana:
+			state = CAST
 
 
 func block_state():
@@ -119,6 +128,7 @@ func block_state():
 
 
 func slide_state():
+	stats.stamina -= stats.block_cost
 	animPlayer.play("Slide")
 	await animPlayer.animation_finished
 	state = MOVE
@@ -179,6 +189,25 @@ func death_state():
 	await animPlayer.animation_finished
 	queue_free()
 	get_tree().change_scene_to_file.bind("res://UI/menu.tscn").call_deferred()
+
+var is_casting_lightning: bool = false
+
+func cast_state():
+	if is_casting_lightning:
+		return
+	is_casting_lightning = true
+	velocity.x = 0
+	animPlayer.play("Cast")
+	await animPlayer.animation_finished
+	_create_lightning_spell()
+	state = MOVE
+	is_casting_lightning = false
+
+
+func _create_lightning_spell():
+	var lightning_scene = preload("res://Elements/Spells/lightning_bolt.tscn")
+	var lightning = lightning_scene.instantiate()
+	get_parent().add_child(lightning)
 
 
 func _on_damage_received(enemy_damage, enemy_position):

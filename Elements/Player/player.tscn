@@ -1,4 +1,4 @@
-[gd_scene load_steps=140 format=3 uid="uid://dmtqybsvc1d2v"]
+[gd_scene load_steps=149 format=3 uid="uid://dmtqybsvc1d2v"]
 
 [ext_resource type="Texture2D" uid="uid://b5g5gnxtoeak" path="res://Assets/oak_woods_v1.0/character/char_blue.png" id="1_7ifq1"]
 [ext_resource type="Script" uid="uid://ds0qbjaml002y" path="res://Elements/Player/player.gd" id="1_a3htu"]
@@ -107,6 +107,38 @@ region = Rect2(56, 560, 56, 56)
 [sub_resource type="AtlasTexture" id="AtlasTexture_g1xe8"]
 atlas = ExtResource("2_ucpqj")
 region = Rect2(112, 560, 56, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7114o"]
+atlas = ExtResource("2_ucpqj")
+region = Rect2(0, 448, 56, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fuxpp"]
+atlas = ExtResource("2_ucpqj")
+region = Rect2(56, 448, 56, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f5cxd"]
+atlas = ExtResource("2_ucpqj")
+region = Rect2(112, 448, 56, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kfifc"]
+atlas = ExtResource("2_ucpqj")
+region = Rect2(168, 448, 56, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h7ovj"]
+atlas = ExtResource("2_ucpqj")
+region = Rect2(224, 448, 56, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vg2sv"]
+atlas = ExtResource("2_ucpqj")
+region = Rect2(280, 448, 56, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ys7j6"]
+atlas = ExtResource("2_ucpqj")
+region = Rect2(336, 448, 56, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n7lv5"]
+atlas = ExtResource("2_ucpqj")
+region = Rect2(392, 448, 56, 56)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ng377"]
 atlas = ExtResource("2_ucpqj")
@@ -426,6 +458,35 @@ animations = [{
 "loop": true,
 "name": &"Block",
 "speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7114o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fuxpp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f5cxd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kfifc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h7ovj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vg2sv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ys7j6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n7lv5")
+}],
+"loop": false,
+"name": &"Cast",
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -857,6 +918,47 @@ tracks/1/keys = {
 "values": ["Block"]
 }
 
+[sub_resource type="Animation" id="Animation_cn6r0"]
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Cast"]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Stats")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"mana_consumption"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_0hi56"]
 length = 0.4
 tracks/0/type = "value"
@@ -1140,6 +1242,7 @@ _data = {
 &"Attack2": SubResource("Animation_jh1yd"),
 &"Attack3": SubResource("Animation_aqi8x"),
 &"Block": SubResource("Animation_lsjgh"),
+&"Cast": SubResource("Animation_cn6r0"),
 &"Damage": SubResource("Animation_0hi56"),
 &"Death": SubResource("Animation_k4wqo"),
 &"Fall": SubResource("Animation_t56kj"),
@@ -1311,7 +1414,7 @@ shape = SubResource("CapsuleShape2D_4e7lq")
 position = Vector2(4.76837e-07, -17)
 scale = Vector2(1.12594, 1.12594)
 sprite_frames = SubResource("SpriteFrames_7ifq1")
-animation = &"Attack3"
+animation = &"Cast"
 autoplay = "Idle"
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -1385,6 +1488,7 @@ lifetime = 5.0
 process_material = SubResource("ParticleProcessMaterial_bp1ut")
 
 [node name="MobileControl" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="MoveLeft" type="TouchScreenButton" parent="MobileControl"]
 modulate = Color(1, 1, 1, 0.309804)

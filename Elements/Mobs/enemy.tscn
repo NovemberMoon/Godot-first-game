@@ -38,7 +38,7 @@ shape = SubResource("RectangleShape2D_jmurb")
 
 [node name="HurtBox" parent="AttackDirection/DamageBox" index="0"]
 collision_layer = 32
-collision_mask = 64
+collision_mask = 192
 
 [node name="CollisionShape2D" parent="AttackDirection/DamageBox/HurtBox" index="0"]
 shape = SubResource("CircleShape2D_xog0h")

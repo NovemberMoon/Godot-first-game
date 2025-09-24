@@ -27,10 +27,15 @@ func _ready() -> void:
 	damage_text.modulate.a = 0
 
 
-func _on_hurt_box_area_entered(_area: Area2D) -> void:
+func _on_hurt_box_area_entered(area: Area2D) -> void:
 	await get_tree().create_timer(0.05).timeout
-	health -= Global.player_damage
-	damage_text.text = str(int(Global.player_damage))
+	var damage
+	if area.name == "HitBox":
+		damage = Global.player_damage
+	elif area.name == "LightningArea":
+		damage = Global.lightning_damage
+	health -= damage
+	damage_text.text = str(int(damage))
 	anim_player.stop()
 	anim_player.play("damage_text")
 	if health <= 0:
